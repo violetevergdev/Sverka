@@ -1,12 +1,12 @@
-from modules.read_main_dir import read_main_dir
-from modules.xml_reader import xml_reader
-from modules.xlsx_reader import xlxs_reader
-from modules.csv_reader import csv_reader
-from modules.db_connection import db_connection
-from modules.get_matches import get_matches
+from modules.sverka.csv_reader import csv_reader
+from modules.sverka.db_connection import db_connection
+from modules.sverka.get_matches import get_matches
+from modules.sverka.read_main_dir import read_main_dir
+from modules.sverka.xlsx_reader import xlxs_reader
+from modules.sverka.xml_reader import xml_reader
 
 
-def main(folder_path):
+def sverka_main(folder_path):
     try:
         conn, c = db_connection()
 
@@ -34,4 +34,4 @@ def main(folder_path):
 
 
 if __name__ == '__main__':
-    main('input/задача по РПВ')
+    sverka_main('input/задача по РПВ')

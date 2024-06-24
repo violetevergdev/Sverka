@@ -1,0 +1,63 @@
+{
+  "url": {
+    "login_M": "http://179",
+    "login_MO": "http://209",
+    "vib_M": "http://179/BySchema.jsp",
+    "vib_MO": "http://209/BySchema.jsp"
+  },
+  "user": {
+    "login": "",
+    "password": ""
+  },
+  "useful-btn": {
+    "next_btn": "button2",
+    "page2": "pagerWeb__1",
+    "page4": "pagerWeb__3",
+    "page5": "pagerWeb__4",
+    "final_btn": "button3",
+    "run_query_btn": "button1",
+    "save_btn": "button2"
+  },
+  "vib-fields": {
+    "database": {
+      "vpl": "rowSelect1__input_sel"
+    },
+    "table": {
+      "vpl_po": "rowSelect1__input_sel",
+      "vpl_popay": "rowSelect1__input_sel"
+    },
+    "field": {
+      "po_dsm": "rowSelect1__input_sel",
+      "po_npers": "rowSelect1__input_sel",
+      "po_ra": "rowSelect1__input_sel",
+      "po_re": "rowSelect1__input_sel",
+      "popay_pw": "rowSelect1__input_sel"
+    }
+  },
+  "filling-data": {
+    "dsm": {
+      "dsm_type_select": "0:menu1",
+      "dsm_type_option": 13,
+      "dsm_type_set_ot": "0:text7",
+      "dsm_type_set_ot_keys": "2020-01-01",
+      "dsm_type_set_do": "0:text9"
+    },
+    "npers": {
+      "npers_type_select": "1:menu1",
+      "npers_type_option": 3
+    },
+    "ra": {
+      "ra_type_select": "2:menu1",
+      "ra_type_option": 11,
+      "ra_type_set": "2:text7",
+      "ra_type_set_keys": "0"
+    },
+    "pw": {
+      "pw_type_select": "4:menu1",
+      "pw_type_option": 5,
+      "pw_type_set": "4:text7",
+      "pw_type_set_keys": "1"
+    }
+  }
+}
+
