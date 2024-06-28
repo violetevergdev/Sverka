@@ -2,46 +2,51 @@ import time
 import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox as mb
+from modules.sverka_RVP_main import sverka_RVP_main
+from modules.sverka_MITS_main import sverka_MITS_main
+from modules.vib_RVP_main import vib_RVP_main
+from modules.vib_MITS_main import vib_MITS_main
 from tkinter import filedialog
-from sverka_main import sverka_main
-from vib_main import vib_main
-
-folder_path = ""
-
 
 def gui():
-    def select_dir():
-        global folder_path
-        folder_path = filedialog.askdirectory()
-        visible_path = folder_path.split("/")[-2:]
-        if not folder_path:
-            return
-        label_sver_dir['text'] = 'Выбранная директория: ' + str('/'.join(visible_path))
-        start_sver_btn['state'] = 'normal'
-
-    def sver():
-        global folder_path
+    def sver_RVP():
         root.withdraw()
         time.sleep(1)
         mb.showinfo('ИДЕТ ОБРАБОТКА', 'Обработка выполняется, дождитесь сообщения об окончании...')
 
-        err = sverka_main(folder_path)
+        err = sverka_RVP_main()
         if err:
-            mb.showinfo('Error', 'Ошибка: ' + str(err))
+            mb.showerror('Error', 'Ошибка: ' + str(err))
 
         mb.showinfo('Готово', 'Обработка завершена!')
 
-        label_sver_dir['text'] = "Выберите директорию:"
-        start_sver_btn['state'] = 'disable'
-        folder_path = ""
         root.deiconify()
 
-    def vib():
+    def sver_MITS():
+        root.withdraw()
+        time.sleep(1)
+        mb.showinfo('ИДЕТ ОБРАБОТКА', 'Обработка выполняется, дождитесь сообщения об окончании...')
+
+        err = sverka_MITS_main()
+        if err:
+            mb.showerror('Error', 'Ошибка: ' + str(err))
+
+        mb.showinfo('Готово', 'Обработка завершена!')
+
+        root.deiconify()
+
+    def vib_RVP():
+        root.withdraw()
+         # Пользователь указывает в какую папку сохранить файл
+        out_path = filedialog.askdirectory().replace('/', "\\")
+        vib_RVP_main(out_path)
+        root.deiconify()
+
+    def vib_MITS():
         root.withdraw()
         # Пользователь указывает в какую папку сохранить файл
         out_path = filedialog.askdirectory().replace('/', "\\")
-
-        vib_main(out_path)
+        vib_MITS_main(out_path)
         root.deiconify()
 
 
@@ -51,7 +56,7 @@ def gui():
     x = (root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
     y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
     root.wm_geometry("+%d+%d" % (x, y))
-    root.title('Обработка РПВ списков')
+    root.title('Обработка списков')
 
     # Создаем вкладки
     notebook = ttk.Notebook(root,height=200, width=400)
@@ -64,23 +69,33 @@ def gui():
     notebook.pack()
 
     # Настройка фрейма сверки
-    label_sver_dir = tk.Label(sverka, text='Выберите директорию:')
-    label_sver_dir.pack(padx=5, pady=15)
+    sverka_column = ttk.Frame(sverka)
+    sverka_column.pack()
 
-    select_button = tk.Button(sverka, text='Выбрать директорию', command=select_dir)
-    select_button.pack(padx=5, pady=15)
+    start_RVP_btn = tk.Button(sverka_column, text='Обработать списки\nРВП', font=30, height=40, command=sver_RVP)
+    start_RVP_btn.pack(side=tk.LEFT, padx=10, pady=10)
 
-    start_sver_btn = tk.Button(sverka, text='Запустить обработку', state='disabled', command=sver)
-    start_sver_btn.pack(padx=5, pady=15)
+    start_MITS_btn = tk.Button(sverka_column, text='Обработать списки\nМиЦ', font=30, height=40, command=sver_MITS)
+    start_MITS_btn.pack(side=tk.RIGHT, padx=10, pady=10)
 
     # Настройка фрейма выборки
-    label_vib_info = tk.Label(viborka, text="При запуске программы\nукажите директорию для скачивания файлов")
-    label_vib_info.pack(padx=5, pady=15)
+    vib_column = ttk.Frame(viborka)
+    vib_column.pack()
 
-    start_vib_btn = tk.Button(viborka, text="Начать выборку данных", command=vib)
-    start_vib_btn.pack(padx=5, pady=15)
+    start_vib_RVP_btn = tk.Button(vib_column, text="Выборка данных\nдля РВП", font=30, height=40, command=vib_RVP)
+    start_vib_RVP_btn.pack(side=tk.LEFT, padx=10, pady=10)
+
+    start_vib_MITS_btn = tk.Button(vib_column, text="Выборка данных\nдля МиЦ", font=30, height=40, command=vib_MITS)
+    start_vib_MITS_btn.pack(side=tk.RIGHT, padx=10, pady=10)
+
+    def destroyer():
+        root.quit()
+
+    root.protocol("WM_DELETE_WINDOW", destroyer)
 
     root.mainloop()
+
+
 
 
 if __name__ == '__main__':

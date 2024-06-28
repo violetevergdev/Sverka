@@ -1,5 +1,11 @@
-input
+IN
 .idea
 __pycache__
 Документация+exe
 soft
+/config/MITS_CONF/mits_conf_M.json
+/config/MITS_CONF/mits_conf_MO.json
+/config/RVP_CONF/rvp_conf_М.json
+/config/RVP_CONF/rvp_conf_МO.json
+/OUT/
+/db/tmp.db

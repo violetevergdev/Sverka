@@ -51,11 +51,11 @@
 
 ### Компиляция:
 ```sh
-pyinstaller  --icon=ic.ico --onefile --windowed --name sverka gui.py
+pyinstaller  --icon=ic.ico --onefile --windowed --name sverka_RVP gui.py
 ```
 
 ```sh
-pyinstaller  sverka.spec
+pyinstaller  sverka_RVP.spec
 ```
 
 ## Содержание конфигурационных файлов
