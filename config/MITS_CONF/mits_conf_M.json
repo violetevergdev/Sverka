@@ -1,0 +1,35 @@
+{
+   "__comm__": "В данном файле указаны значения ID элементов выборки (checkbox) используемых при работе с выборкой данных для МиЦ МСК",
+
+  "vib-fields": {
+    "database": {
+      "vpl": "form1:table1:9:rowSelect1__input_sel"
+    },
+    "table": {
+      "vpl_po": "form1:table1:24:rowSelect1__input_sel",
+      "vpl_popay": "form1:table1:31:rowSelect1__input_sel"
+    },
+    "field": {
+      "po_npers": "form1:table1:56:rowSelect1__input_sel",
+      "po_ra": "form1:table1:95:rowSelect1__input_sel",
+      "po_re": "form1:table1:97:rowSelect1__input_sel",
+      "popay_pw": "form1:table1:144:rowSelect1__input_sel"
+    }
+  },
+
+  "filling-data": {
+    "ra": {
+      "ra_type_select": "form1:table1:1:menu1",
+      "ra_type_option": 14,
+      "ra_type_set": "form1:table1:1:text7",
+      "ra_type_set_keys": "504, 602, 903, 202, 403"
+    },
+    "pw": {
+      "pw_type_select": "form1:table1:3:menu1",
+      "pw_type_option": 5,
+      "pw_type_set": "form1:table1:3:text7",
+      "pw_type_set_keys": "0"
+    }
+  }
+}
+

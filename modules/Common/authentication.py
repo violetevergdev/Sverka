@@ -8,10 +8,10 @@ def authentication(driver, config_data):
     WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.NAME, 'j_username')))
 
     user_field = driver.find_element(By.NAME, 'j_username')
-    user_field.send_keys(config_data["user"]["login"])
+    user_field.send_keys(config_data["login"])
 
     pass_field = driver.find_element(By.NAME, 'j_password')
-    pass_field.send_keys(config_data["user"]["password"])
+    pass_field.send_keys(config_data["password"])
 
     action_button = driver.find_element(By.NAME, 'action')
     action_button.click()
