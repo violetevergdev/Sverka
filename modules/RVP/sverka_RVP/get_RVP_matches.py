@@ -2,9 +2,9 @@ import os
 import pandas as pd
 
 
-def get_matches(c, out_path):
+def get_RVP_matches(c, xml_db, xlsx_db, vib_db, out_path='OUT'):
     # Выполняем запрос
-    query = c.execute('''SELECT 
+    query = c.execute(f'''SELECT 
     x.*, p.*,
     x."Сумма выплаты РФ" - p.Сумма_pfr as Разница_сумм,
     CASE
@@ -23,12 +23,12 @@ END AS 'Смерть',
     WHEN n.СНИЛС = p.СНИЛС_pfr THEN n.Район
     ELSE 0
 END AS 'Район'
-FROM xml_base AS x
-LEFT JOIN pfr_base AS p ON (
+FROM {xml_db} AS x
+LEFT JOIN {xlsx_db} AS p ON (
     x.СНИЛС = p.СНИЛС_pfr OR
     (x.СНИЛС IS NULL AND x.Фамилия = p.Фамилия_pfr AND x.Имя = p.Имя_pfr AND x."Дата рождения" = p."Дата рождения_pfr")
     )
-LEFT JOIN nvp_base AS n ON n.СНИЛС = p.СНИЛС_pfr
+LEFT JOIN {vib_db} AS n ON n.СНИЛС = p.СНИЛС_pfr
 ORDER BY x.Фамилия''')
 
     # Забираем значение столбцов

@@ -2,11 +2,11 @@ import os
 import pandas as pd
 
 
-def get_FSS_matches(c, folder_path):
+def get_FSS_matches(c, fss_db, vib_db, out_dir='OUT'):
     # Выполняем запрос
-    query = c.execute('''select distinct *
-from fss_base as f
-join vib_fss_base as v on
+    query = c.execute(f'''select distinct *
+from {fss_db} as f
+join {vib_db} as v on
      f.СНИЛС == v.npers
 group by f.СНИЛС''')
 
@@ -14,7 +14,7 @@ group by f.СНИЛС''')
     results = pd.DataFrame(query, columns=[col[0] for col in c.description])
 
     # Устанавливаем выходной путь
-    out = os.path.join(folder_path, 'Обработанный список ФСС.xlsx')
+    out = os.path.join(out_dir, 'Обработанный список ФСС.xlsx')
 
     # Записываем данные
     writer = pd.ExcelWriter(out)

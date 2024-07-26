@@ -1,144 +1,100 @@
-import time
+import os
+import threading
 import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox as mb
-from modules.sverka_RVP_main import sverka_RVP_main
-from modules.sverka_MITS_main import sverka_MITS_main
-from modules.sverka_FSS_main import sverka_FSS_main
-from modules.vib_RVP_main import vib_RVP_main
-from modules.vib_MITS_main import vib_MITS_main
-from modules.vib_FSS_main import vib_FSS_main
+from tkinter.simpledialog import askstring
+import json
+from modules.sverka_main import sver_main
+import sys
 
-import os
-from tkinter import filedialog
+def check_login():
+    with open('config/Common/login.json', 'r') as f:
+        login_json = json.load(f)
+    if login_json['login'] == "" and login_json['password'] == "":
+        login_entry = askstring(title="Отсутствует логин и пароль", prompt='Введите логин от НВП:')
+        password_entry = askstring(title="Отсутствует логин и пароль", prompt='Введите пароль от НВП:')
+
+        login_json['login'] = login_entry
+        login_json['password'] = password_entry
+
+        with open('config/Common/login.json', 'w') as f:
+            json.dump(login_json, f, indent=2)
+
+    elif login_json['login'] == "":
+        login_entry = askstring(title="Отсутствует логин", prompt='Введите логин от НВП:')
+        login_json['login'] = login_entry
+
+        with open('config/Common/login.json', 'w') as f:
+            json.dump(login_json, f, indent=2)
+
+    elif login_json['password'] == "":
+        password_entry = askstring(title="Отсутствует пароль", prompt='Введите пароль от НВП:')
+        login_json['password'] = password_entry
+        with open('config/Common/login.json', 'w') as f:
+            json.dump(login_json, f, indent=2)
+
 
 def gui():
-    def sver_RVP():
+    def start_sver():
+        type_of_sver = selected_type_of_sver.get()
+        vib_state = check_vib_state.get()
+
         root.withdraw()
-        time.sleep(1)
+
+        def run_processing():
+            err = sver_main(type_of_sver, vib_state)
+            if err:
+                mb.showerror('Error', 'Ошибка: ' + str(err))
+            else:
+                mb.showinfo('Готово', 'Обработка завершена!')
+
+            root.deiconify()
+
+        processing_thread = threading.Thread(target=run_processing)
+        processing_thread.start()
+
         mb.showinfo('ИДЕТ ОБРАБОТКА', 'Обработка выполняется, дождитесь сообщения об окончании...')
-
-        err = sverka_RVP_main()
-        if err:
-            mb.showerror('Error', 'Ошибка: ' + str(err))
-
-        mb.showinfo('Готово', 'Обработка завершена!')
-
-        root.deiconify()
-
-    def sver_MITS():
-        root.withdraw()
-        time.sleep(1)
-        mb.showinfo('ИДЕТ ОБРАБОТКА', 'Обработка выполняется, дождитесь сообщения об окончании...')
-
-        err = sverka_MITS_main()
-        if err:
-            mb.showerror('Error', 'Ошибка: ' + str(err))
-
-        mb.showinfo('Готово', 'Обработка завершена!')
-
-        root.deiconify()
-
-    def sver_FSS():
-        root.withdraw()
-        time.sleep(1)
-        mb.showinfo('ИДЕТ ОБРАБОТКА', 'Обработка выполняется, дождитесь сообщения об окончании...')
-
-        err = sverka_FSS_main()
-        if err:
-            mb.showerror('Error', 'Ошибка: ' + str(err))
-
-        mb.showinfo('Готово', 'Обработка завершена!')
-
-        root.deiconify()
-
-    def vib_RVP():
-        root.withdraw()
-         # Пользователь указывает в какую папку сохранить файл
-        out_path = os.path.join(os.getcwd(), 'IN\\РВП\\НВП')
-        vib_RVP_main(out_path)
-        root.deiconify()
-
-    def vib_MITS():
-        root.withdraw()
-        # Пользователь указывает в какую папку сохранить файл
-        out_path = os.path.join(os.getcwd(), 'IN\\МСП\\VIB')
-        vib_MITS_main(out_path)
-        root.deiconify()
-
-    def vib_FSS():
-        root.withdraw()
-        # Пользователь указывает в какую папку сохранить файл
-        out_path = os.path.join(os.getcwd(), 'IN\\ФСС\\VIB')
-        vib_FSS_main(out_path)
-        root.deiconify()
-
 
     root = tk.Tk()
-    root.geometry('400x200')
+    root.geometry('400x160')
     root.resizable(False, False)
     x = (root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
     y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
     root.wm_geometry("+%d+%d" % (x, y))
     root.title('Обработка списков')
 
-    # Создаем вкладки
-    notebook = ttk.Notebook(root,height=200, width=400)
-    sverka = ttk.Frame(notebook)
-    viborka = ttk.Frame(notebook)
-
-    notebook.add(sverka, text='Обработка')
-    notebook.add(viborka, text='Выборка')
-
-    notebook.pack()
+    check_login()
 
     # Настройка фрейма сверки
-    sverka_column = ttk.Frame(sverka)
-    sverka_column.pack()
+    sver_frame = ttk.Frame(root)
+    sver_frame.pack()
 
-    l_col__sver = ttk.Frame(sverka_column)
-    l_col__sver.pack(side=tk.LEFT)
+    selected_type_of_sver = tk.StringVar(value='МСП')
 
-    r_col__sver = ttk.Frame(sverka_column)
-    r_col__sver.pack(side=tk.RIGHT)
+    type_MITS_radio = tk.Radiobutton(sver_frame, text="МСП", font=20, variable=selected_type_of_sver, value="МСП")
+    type_MITS_radio.pack(side=tk.LEFT, padx=5, pady=10)
 
-    start_RVP_btn = tk.Button(l_col__sver, text='Обработать списки\nРВП', font=5, command=sver_RVP)
-    start_RVP_btn.pack(side=tk.TOP, padx=5, pady=20)
+    type_RVP_radio = tk.Radiobutton(sver_frame, text="РВП", font=20, variable=selected_type_of_sver, value="РВП")
+    type_RVP_radio.pack(side=tk.LEFT, padx=5, pady=10)
 
-    start_MITS_btn = tk.Button(l_col__sver, text='Обработать списки\nМиЦ', font=5, command=sver_MITS)
-    start_MITS_btn.pack(side=tk.BOTTOM, padx=5)
+    type_FSS_radio = tk.Radiobutton(sver_frame, text="ФСС", font=20, variable=selected_type_of_sver, value="ФСС")
+    type_FSS_radio.pack(side=tk.LEFT, padx=5, pady=10)
 
-    start_FSS_btn = tk.Button(r_col__sver, text='Обработать списки\nФСС', font=5, command=sver_FSS)
-    start_FSS_btn.pack(side=tk.TOP, padx=5, pady=5)
+    check_vib_state = tk.BooleanVar()
 
-    # Настройка фрейма выборки
-    vib_column = ttk.Frame(viborka)
-    vib_column.pack()
+    vib_radio = tk.Checkbutton(root, text="с выборкой", font=5, variable=check_vib_state)
+    vib_radio.pack(side=tk.TOP, padx=10, pady=10)
 
-    l_col__vib = ttk.Frame(vib_column)
-    l_col__vib.pack(side=tk.LEFT)
-
-    r_col__vib = ttk.Frame(vib_column)
-    r_col__vib.pack(side=tk.RIGHT)
-
-    start_vib_RVP_btn = tk.Button(l_col__vib, text="Выборка данных\nдля РВП", font=5, command=vib_RVP)
-    start_vib_RVP_btn.pack(side=tk.TOP, padx=5, pady=20)
-
-    start_vib_MITS_btn = tk.Button(l_col__vib, text="Выборка данных\nдля МиЦ", font=5, command=vib_MITS)
-    start_vib_MITS_btn.pack(side=tk.BOTTOM, padx=5)
-
-    start_vib_FSS_btn = tk.Button(r_col__vib, text="Выборка данных\nдля ФСС", font=5, command=vib_FSS)
-    start_vib_FSS_btn.pack(side=tk.TOP, padx=5, pady=5)
+    start_btn = tk.Button(root, text='Обработать списки', font=20, command=start_sver)
+    start_btn.pack(padx=10, pady=10)
 
     def destroyer():
         root.quit()
-        root.destroy()
 
     root.protocol("WM_DELETE_WINDOW", destroyer)
 
     root.mainloop()
-
-
 
 
 if __name__ == '__main__':

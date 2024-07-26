@@ -1,0 +1,36 @@
+{
+   "__comm__": "В данном файле указаны наименования и ID элементов выборки (checkbox) используемых при работе с выборкой данных для МиЦ МСК",
+
+  "vib-fields": {
+    "database": [
+      "VPL"
+    ],
+    "tables": [
+      "VPL_PO",
+      "VPL_POPAY"
+    ],
+    "fields": [
+      "PO_NPERS",
+      "PO_RA",
+      "PO_RE",
+      "POPAY_PW"
+    ]
+  },
+
+  "filling-data": {
+    "ra": {
+      "select": "form1:table1:1:menu1",
+      "option": 14,
+      "set": "form1:table1:1:text7",
+      "set_keys_M": "504, 602, 903, 202, 403",
+      "set_keys_MO": "6, 5, 11, 10, 3"
+    },
+    "pw": {
+      "select": "form1:table1:3:menu1",
+      "option": 5,
+      "set": "form1:table1:3:text7",
+      "set_keys": "0"
+    }
+  }
+}
+

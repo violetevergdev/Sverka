@@ -3,9 +3,6 @@
 
   "useful-btn": {
     "next_btn": "form1:button2",
-    "page2": "form1:table1:web1__pagerWeb__1",
-    "page4": "form1:table1:web1__pagerWeb__3",
-    "page5": "form1:table1:web1__pagerWeb__4",
     "final_btn": "form1:button3",
     "run_query_btn": "form1:button1",
     "save_btn": "form1:button2"

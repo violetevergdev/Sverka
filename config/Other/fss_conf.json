@@ -1,0 +1,39 @@
+{
+   "__comm__": "В данном файле указаны наименования и ID элементов выборки (checkbox) используемых при работе с выборкой данных для ФСС МСК",
+
+  "vib-fields": {
+    "database": [
+      "PF"
+    ],
+    "tables": [
+      "PF_MAN"
+    ],
+    "fields": [
+      "MAN_DSM",
+      "MAN_NPERS",
+      "MAN_PW",
+      "MAN_RA",
+      "MAN_RE"
+    ]
+  },
+
+  "filling-data": {
+    "dsm": {
+      "select": "form1:table1:0:menu1",
+      "option": 4
+    },
+    "npers": {
+      "select": "form1:table1:1:menu1",
+      "option": 11,
+      "set": "form1:table1:1:text7",
+      "set_keys": "001-001-001 00"
+    },
+    "pw": {
+      "select": "form1:table1:2:menu1",
+      "option": 5,
+      "set": "form1:table1:2:text7",
+      "set_keys": "1"
+    }
+  }
+}
+
