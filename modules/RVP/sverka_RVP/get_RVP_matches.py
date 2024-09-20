@@ -18,11 +18,7 @@ END AS Расхождение,
     CASE
     WHEN n.СНИЛС = p.СНИЛС_pfr THEN n.pw
     ELSE 0
-END AS 'Смерть',
-    CASE
-    WHEN n.СНИЛС = p.СНИЛС_pfr THEN n.Район
-    ELSE 0
-END AS 'Район'
+END AS 'Смерть'
 FROM {xml_db} AS x
 LEFT JOIN {xlsx_db} AS p ON (
     x.СНИЛС = p.СНИЛС_pfr OR

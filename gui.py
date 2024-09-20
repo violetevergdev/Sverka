@@ -46,6 +46,7 @@ def gui():
             err = sver_main(type_of_sver, vib_state)
             if err:
                 mb.showerror('Error', 'Ошибка: ' + str(err))
+                root.focus()
             else:
                 mb.showinfo('Готово', 'Обработка завершена!')
 

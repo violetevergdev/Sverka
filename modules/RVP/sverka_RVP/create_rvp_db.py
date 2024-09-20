@@ -18,7 +18,8 @@ def create_xlsx_db(db_curs, db_name):
       'Имя_pfr',
       'Отчество_pfr',
       'Дата рождения_pfr',
-      'Сумма_pfr'
+      'Сумма_pfr',
+      'Район_pfr'
     )
     ''')
 
