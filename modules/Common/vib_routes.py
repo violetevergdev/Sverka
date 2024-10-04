@@ -14,7 +14,7 @@ from modules.Common.viborka.selecting_fields.filling_fields import filling_field
 def vib_routes(driver, config_data, server, type_of_op):
     # Проверка на наличие разницы в filling_data в зависимости от сервера
     difference = False
-    if type_of_op == "МСП":
+    if type_of_op in ("МСП", "ФСС-БАЗА"):
         difference = True
 
     try:
@@ -42,9 +42,9 @@ def vib_routes(driver, config_data, server, type_of_op):
         run_query_btn.click()
 
         # Сохранение запроса
-        WebDriverWait(driver, 360).until(EC.presence_of_element_located((By.ID, 'form1:text1')))
+        WebDriverWait(driver, 580).until(EC.presence_of_element_located((By.ID, 'form1:text1')))
 
-        WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.ID, useful_btn["save_btn"])))
+        WebDriverWait(driver, 360).until(EC.presence_of_element_located((By.ID, useful_btn["save_btn"])))
 
         save_btn = driver.find_element(By.ID, useful_btn["save_btn"])
         save_btn.click()

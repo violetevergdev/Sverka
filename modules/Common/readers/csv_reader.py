@@ -16,7 +16,7 @@ def csv_reader(db_name: str, db_conn, dir: str, names: list, usecols: list, skip
         :param opt: (опционально) функция для дополнительной обработки данных
     """
     try:
-        # Считываем все CSV-файлы в один DataFrame
+        # Считываем все VIB-файлы в один DataFrame
         df = pd.concat([pd.read_csv(os.path.join(dir, file), sep=";", header=None,
                         names=names, usecols=usecols, skiprows=skiprows, encoding=encoding) for file in os.listdir(dir) if
                         file.endswith(".csv")])

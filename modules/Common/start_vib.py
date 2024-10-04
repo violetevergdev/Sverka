@@ -36,6 +36,12 @@ def start_to_vib(server, type_of_vib, out_path):
         # Осуществление выборки
         vib_routes(driver, config_data, server, type_of_vib)
 
+        while True:
+            files = os.listdir(out_path)
+            if not any(filename.endswith('.part') for filename in files):
+                break
+            time.sleep(1)
+
         # Переименование
         old_name = os.path.join(out_path, 'results.csv')
         new_name = old_name.replace('.csv', '_' + server + '.csv')

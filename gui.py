@@ -82,6 +82,9 @@ def gui():
     type_FSS_radio = tk.Radiobutton(sver_frame, text="ФСС", font=20, variable=selected_type_of_sver, value="ФСС")
     type_FSS_radio.pack(side=tk.LEFT, padx=5, pady=10)
 
+    type_FSS_BASE_radio = tk.Radiobutton(sver_frame, text="ФСС-БАЗА", font=20, variable=selected_type_of_sver, value="ФСС-БАЗА")
+    type_FSS_BASE_radio.pack(side=tk.LEFT, padx=5, pady=10)
+
     check_vib_state = tk.BooleanVar()
 
     vib_radio = tk.Checkbutton(root, text="с выборкой", font=5, variable=check_vib_state)

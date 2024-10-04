@@ -15,6 +15,7 @@ def get_vib_config(type_of_vib):
             "РВП": "config/Other/rvp_conf.json",
             "МСП": "config/Other/mits_conf.json",
             "ФСС": "config/Other/fss_conf.json",
+            "ФСС-БАЗА": "config/Other/fss_base_conf.json",
         }
 
         configuration_file = type_config.get(type_of_vib)

@@ -6,7 +6,7 @@ def xlsx_reader(dir: str, db_conn, db_curs, db_name: str, skiprows: int = 0, pro
     """
                         Функция для обработки XLSX файлов в БД
 
-        :param dir: директория расположения XML файлов
+        :param dir: директория расположения XLSX файлов
         :param db_conn: объект connection БД
         :param db_curs: объект cursor БД
         :param db_name: имя БД для записи данных
