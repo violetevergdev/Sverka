@@ -14,7 +14,6 @@ def get_env(name):
         env = os.getenv('ENV_FOR_DYNACONF')
     return env
 
-
 # Получаем значение окружения
 env = get_env('ENV_FOR_DYNACONF')
 

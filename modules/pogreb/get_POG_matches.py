@@ -1,20 +1,17 @@
 import os
 import pandas as pd
 
-
-def get_FSS_matches(c, fss_db, vib_db, out_dir='OUT'):
+def get_POG_matches(c, vip_db, zayav_db, out_dir='OUT'):
     # Выполняем запрос
-    query = c.execute(f'''select distinct *
-from {fss_db} as f
-join {vib_db} as v on
-     f.СНИЛС == v.npers
-group by f.СНИЛС''')
+    query = c.execute(f'''SELECT *
+FROM {vip_db} AS v
+LEFT JOIN {zayav_db} AS f ON v."СНИЛС получателя" == f."СНИЛС заявителя"''')
 
     # Получаем DataFrame
     results = pd.DataFrame(query, columns=[col[0] for col in c.description])
 
     # Устанавливаем выходной путь
-    out = os.path.join(out_dir, 'Обработанный список ФСС.xlsx')
+    out = os.path.join(out_dir, 'Обработанный список [погребение].xlsx')
 
     # Записываем данные
     writer = pd.ExcelWriter(out)
