@@ -37,11 +37,11 @@ def start_POG_sver(in_path, db_conn, db_curs):
 
     except Exception as e:
         return e
-    # finally:
-    #     # Чистим БД на выходе
-    #     try:
-    #         db_curs.execute(f"DROP TABLE {db_vip_name}")
-    #         db_curs.execute(f"DROP TABLE {db_zauav_name}")
-    #     except Exception as e:
-    #         err = "Невозможно удалить БД" + str(e)
-    #         return err
+    finally:
+        # Чистим БД на выходе
+        try:
+            db_curs.execute(f"DROP TABLE {db_vip_name}")
+            db_curs.execute(f"DROP TABLE {db_zauav_name}")
+        except Exception as e:
+            err = "Невозможно удалить БД" + str(e)
+            return err
