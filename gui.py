@@ -25,19 +25,16 @@ def gui():
        
 
     root = tk.Tk()
-    root.geometry('400x160')
+    root.geometry('200x60')
     root.resizable(False, False)
     x = (root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
     y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
     root.wm_geometry("+%d+%d" % (x, y))
-    root.title('Сверка [Погребение]')
+    root.title('Сверка [СВО]')
 
     # Настройка фрейма сверки
     sver_frame = ttk.Frame(root)
     sver_frame.pack()
-    
-    title_lable = tk.Label(text='В директории IN должны располагаться файлы\nс именами "выплатной реестр" и "реестр заявлений"\nиные наименования выдадут ошибку\n', font=14)
-    title_lable.pack()
     
     start_btn = tk.Button(root, text="Обработать списки", font=20, command=start_sver)
     start_btn.pack(padx=10, pady=10)

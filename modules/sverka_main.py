@@ -1,6 +1,6 @@
 
 from modules.Common.customization.db_connection import db_connection
-from modules.pogreb.start_POG_sver import start_POG_sver
+from modules.svo.start_SVO_sver import start_SVO_sver
 
 
 # Запуск скриптов в зависимости от типа сверки и условия выборки
@@ -11,7 +11,7 @@ def sver_main():
         # Подключение к БД
         conn, c = db_connection()
 
-        err = start_POG_sver(in_path, conn, c)
+        err = start_SVO_sver(in_path, conn, c)
         if err:
             return err
 
