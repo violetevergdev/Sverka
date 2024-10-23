@@ -15,7 +15,7 @@ def start_FSS_BASE(in_path, type_of_sver, db_conn, db_curs):
 
         # =============== Чтение XLSX файлов по ФСС ==================
 
-        # Создание таблицы в БД для файлов из XLSX (картотека) РВП
+        # Создание таблицы в БД для файлов из XLSX (картотека) РПВ
         db_xlsx_name = 'fss_base'
         create_fss_db(db_curs, db_xlsx_name)
 
@@ -49,8 +49,8 @@ def start_FSS_BASE(in_path, type_of_sver, db_conn, db_curs):
     finally:
         # Чистим БД на выходе
         try:
-            db_curs.execute(f"DROP TABLE {db_xlsx_name}")
-            db_curs.execute(f"DROP TABLE {db_vib_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_xlsx_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_vib_name}")
         except Exception as e:
             err = "Невозможно удалить БД" + str(e)
             return err

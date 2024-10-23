@@ -14,7 +14,7 @@ from modules.Common.viborka.selecting_fields.filling_fields import filling_field
 def vib_routes(driver, config_data, server, type_of_op):
     # Проверка на наличие разницы в filling_data в зависимости от сервера
     difference = False
-    if type_of_op in ("МСП", "ФСС-БАЗА"):
+    if type_of_op in ("МСП", "ФСС-БАЗА", "НАКОП"):
         difference = True
 
     try:

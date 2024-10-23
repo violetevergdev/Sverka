@@ -1,3 +1,4 @@
+import json
 import os
 import time
 
@@ -12,42 +13,58 @@ from modules.Common.vib_routes import vib_routes
 
 def start_to_vib(server, type_of_vib, out_path):
     try:
-        # Запуск браузера
-        driver = browser(out_path)
-
         # Получаем конфигурационые данные
-        routes_config, login_config, config_data = get_vib_config(type_of_vib)
+        routes_config, login_config, conf_list = get_vib_config(type_of_vib)
 
-        # Запуск VIB в Firefox
-        err = open_nvp(server, type_of_vib, driver, routes_config)
-        if err:
-            return err
+        for type_config in conf_list:
+            if type_config:
+                with open(type_config, "r") as f:
+                    config_data = json.load(f)
 
-        # Логинимся
-        err = authentication(driver, login_config)
-        if err:
-            return err
+            try:
+                if "out_path" in config_data:
+                    new_out_path = os.path.join(out_path, config_data["out_path"])
 
-        # Переход на страницу выборок
-        err = open_vib_url(server, type_of_vib, driver, routes_config)
-        if err:
-            return err
+                # Запуск браузера
+                driver = browser(new_out_path)
 
-        # Осуществление выборки
-        vib_routes(driver, config_data, server, type_of_vib)
+                # Запуск VIB в Firefox
+                err = open_nvp(server, type_of_vib, driver, routes_config)
+                if err:
+                    return err
 
-        while True:
-            files = os.listdir(out_path)
-            if not any(filename.endswith('.part') for filename in files):
-                break
-            time.sleep(1)
+                # Логинимся
+                err = authentication(driver, login_config)
+                if err:
+                    return err
 
-        # Переименование
-        old_name = os.path.join(out_path, 'results.csv')
-        new_name = old_name.replace('.csv', '_' + server + '.csv')
-        os.rename(old_name, new_name)
+                # Переход на страницу выборок
+                err = open_vib_url(server, type_of_vib, driver, routes_config)
+                if err:
+                    return err
+
+                # Осуществление выборки
+                vib_routes(driver, config_data, server, type_of_vib)
+
+                if server == 'M':
+                    while len(os.listdir(new_out_path)) == 0:
+                        time.sleep(1)
+                    while any(file.endswith('.part') for file in os.listdir(new_out_path)):
+                        time.sleep(1)
+                else:
+                    while len(os.listdir(new_out_path)) < 2:
+                        time.sleep(1)
+                    while any(file.endswith('.part') for file in os.listdir(new_out_path)):
+                        time.sleep(1)
+
+                # Переименование
+                old_name = os.path.join(new_out_path, 'results.csv')
+                new_name = old_name.replace('.csv', '_' + server + '.csv')
+                os.rename(old_name, new_name)
+            except Exception as e:
+                return e
+            finally:
+                driver.close()
 
     except Exception as e:
         return e
-    finally:
-        driver.close()

@@ -12,6 +12,7 @@ def start_MITS(in_path, type_of_sver, db_conn, db_curs):
         # Чтение рабочей директории
         mits_dir, vib_dir = read_main_dir(in_path, type_of_sver)
 
+
         # =============== Чтение csv файлов из МиЦ ==================
 
         # Создание таблицы в БД для файлов из МиЦ
@@ -56,8 +57,8 @@ def start_MITS(in_path, type_of_sver, db_conn, db_curs):
     finally:
         # Чистка БД на выходе
         try:
-            db_curs.execute(f"DROP TABLE {db_mits_name}")
-            db_curs.execute(f"DROP TABLE {db_msp_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_mits_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_msp_name}")
         except Exception as e:
             err = "Невозможно удалить БД" + str(e)
             return err

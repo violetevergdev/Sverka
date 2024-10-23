@@ -16,9 +16,9 @@ def start_RVP(in_path, type_of_sver, db_conn, db_curs):
         # Чтение рабочей директории
         xml_dir, xlsx_dir, vib_dir = read_main_dir(in_path, type_of_sver)
 
-        # =============== Чтение XML файлов по РВП ==================
+        # =============== Чтение XML файлов по РПВ ==================
 
-        # Создание таблицы в БД для файлов из XML РВП
+        # Создание таблицы в БД для файлов из XML РПВ
         db_xml_name = 'xml_base'
         create_xml_db(db_curs, db_xml_name)
 
@@ -28,9 +28,9 @@ def start_RVP(in_path, type_of_sver, db_conn, db_curs):
         if err:
             return err
 
-        # =============== Чтение XLSX файлов по РВП ==================
+        # =============== Чтение XLSX файлов по РПВ ==================
 
-        # Создание таблицы в БД для файлов из XLSX (картотека) РВП
+        # Создание таблицы в БД для файлов из XLSX (картотека) РПВ
         db_xlsx_name = 'xlsx_base'
         create_xlsx_db(db_curs, db_xlsx_name)
 
@@ -65,9 +65,9 @@ def start_RVP(in_path, type_of_sver, db_conn, db_curs):
     finally:
         # Чистим БД на выходе
         try:
-            db_curs.execute(f"DROP TABLE {db_xml_name}")
-            db_curs.execute(f"DROP TABLE {db_xlsx_name}")
-            db_curs.execute(f"DROP TABLE {db_vib_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_xml_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_xlsx_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_vib_name}")
         except Exception as e:
             err = "Невозможно удалить БД" + str(e)
             return err

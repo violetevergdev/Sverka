@@ -32,7 +32,7 @@ ORDER BY x.Фамилия''')
     # Получаем DataFrame
     results = pd.DataFrame(query)
     # Устанавливаем выходной путь
-    out = os.path.join(out_path, 'Обработанный список РВП.xlsx')
+    out = os.path.join(out_path, 'Обработанный список РПВ.xlsx')
     # Выгружаем результат
     results.to_excel(out, header=column_names, index=False, engine='openpyxl')
 

@@ -1,5 +1,7 @@
 
 import os
+
+from modules.NAKOP.start_NAKOP_sver import start_NAKOP
 from modules.vib_main import start_vib_main
 from modules.Common.customization.db_connection import db_connection
 from modules.MITS.start_MITS_sver import start_MITS
@@ -30,7 +32,7 @@ def sver_main(type_of_sver, vib_state):
             err = start_MITS(in_path, type_of_sver, conn, c)
             if err:
                 return err
-        elif type_of_sver == 'РВП':
+        elif type_of_sver == 'РПВ':
             err = start_RVP(in_path, type_of_sver, conn, c)
             if err:
                 return err
@@ -40,6 +42,10 @@ def sver_main(type_of_sver, vib_state):
                 return err
         elif type_of_sver == 'ФСС-БАЗА':
             err = start_FSS_BASE(in_path, type_of_sver, conn, c)
+            if err:
+                return err
+        elif type_of_sver == 'НАКОП':
+            err = start_NAKOP(in_path, type_of_sver, conn, c)
             if err:
                 return err
 

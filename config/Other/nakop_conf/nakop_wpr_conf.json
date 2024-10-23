@@ -1,0 +1,24 @@
+{
+   "__comm__": "В данном файле указаны наименования и ID элементов выборки (checkbox) используемых при работе с выборкой данных для НАКОП - WPR",
+
+  "out_path": "WPR",
+
+  "vib-fields": {
+    "database": [
+      "KL"
+    ],
+    "tables": [
+      "KL_WPR"
+    ],
+    "fields": [
+      "WPR_KOD",
+      "WPR_NAME",
+      "WPR_NUS",
+      "WPR_RA"
+    ]
+  },
+
+  "filling-data": {
+  }
+}
+

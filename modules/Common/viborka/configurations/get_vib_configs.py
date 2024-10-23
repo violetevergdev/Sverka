@@ -12,17 +12,16 @@ def get_vib_config(type_of_vib):
 
         # Получаем конфигурационные данные для выборок
         type_config = {
-            "РВП": "config/Other/rvp_conf.json",
-            "МСП": "config/Other/mits_conf.json",
-            "ФСС": "config/Other/fss_conf.json",
-            "ФСС-БАЗА": "config/Other/fss_base_conf.json",
+            "РПВ": ["config/Other/rvp_conf.json"],
+            "МСП": ["config/Other/mits_conf.json"],
+            "ФСС": ["config/Other/fss_conf.json"],
+            "ФСС-БАЗА": ["config/Other/fss_base_conf.json"],
+            "НАКОП": ["config/Other/nakop_conf/nakop_man_conf.json", "config/Other/nakop_conf/nakop_popay_conf.json",
+                      "config/Other/nakop_conf/nakop_wpr_conf.json"],
         }
 
-        configuration_file = type_config.get(type_of_vib)
+        configuration_list = type_config.get(type_of_vib)
 
-        if configuration_file:
-            with open(configuration_file, "r") as f:
-                config_json = json.load(f)
 
-        return routes_json, login_json, config_json
+        return routes_json, login_json, configuration_list
 

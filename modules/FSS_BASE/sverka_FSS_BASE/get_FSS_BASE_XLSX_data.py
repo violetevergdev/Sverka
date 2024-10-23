@@ -1,3 +1,5 @@
+from modules.Common.refactor_data import format_snils_with_fill_zero
+
 
 def get_FSS_BASE_XLSX_data(df, db_curs, db_name, file):
     data = []
@@ -7,7 +9,7 @@ def get_FSS_BASE_XLSX_data(df, db_curs, db_name, file):
             continue
 
         fio = row[0]
-        snils = format_snils(row[1])
+        snils = format_snils_with_fill_zero(row[1])
         type_of_vpl = row[2]
         sum = row[4]
         id = row[5]
@@ -28,11 +30,3 @@ def get_FSS_BASE_XLSX_data(df, db_curs, db_name, file):
     except Exception as e:
         print(e)
 
-
-def format_snils(unvalid_snils):
-    s = list(unvalid_snils)
-
-    s.insert(3, '-')
-    s.insert(7, '-')
-    s.insert(11, ' ')
-    return "".join(s)
