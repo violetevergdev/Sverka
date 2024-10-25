@@ -2,6 +2,7 @@ import os
 
 from modules.Common.read_main_dir import read_main_dir
 from modules.Common.readers.csv_reader import csv_reader
+from modules.NAKOP.check_is_loc_data_valid import is_loc_data_valid
 
 from modules.NAKOP.create_NAKOP_db import *
 from modules.Common.readers.xlsx_reader import xlsx_reader
@@ -11,9 +12,16 @@ from modules.NAKOP.reformat_NAKOP_data import reformat_popay_data, reformat_wpr_
 
 
 def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
+    err = None
     try:
         # Чтение рабочей директории
         xlsx, vib, loc = read_main_dir(in_path, type_of_sver)
+
+        is_continue, failed_files = is_loc_data_valid(loc, skiprows=2)
+
+        if is_continue is False:
+            err = 'В следующих файлах отсутствует СНИЛС: ' + str(failed_files)
+            raise Exception(err)
 
         # =============== Чтение файла xlsx OSFR ==================
 
@@ -23,7 +31,7 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
 
         err = xlsx_reader(xlsx, db_conn, db_curs, db_name=db_osfr_name, processing_data_func=get_osfr_data)
         if err:
-            return err
+            raise Exception(err)
 
         # =============== Чтение файла xlsx LOC ==================
 
@@ -33,7 +41,7 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
 
         err = xlsx_reader(loc, db_conn, db_curs, db_name=db_loc_name, skiprows=2, processing_data_func=get_loc_data)
         if err:
-            return err
+            raise Exception(err)
 
         # =============== Чтение csv файлов MAN ==================
 
@@ -51,7 +59,7 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
 
         err = csv_reader(db_man_name, db_conn, dir=man_dir, names=col_names, usecols=col, encoding='windows-1251')
         if err:
-            return err
+            raise Exception(err)
 
         # =============== Чтение csv файлов POPAY ==================
 
@@ -69,7 +77,7 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
 
         err = csv_reader(db_popay_name, db_conn, dir=popay_dir, names=col_names, usecols=col, encoding='windows-1251', opt=reformat_popay_data)
         if err:
-            return err
+            raise Exception(err)
 
         # =============== Чтение csv файлов WPR ==================
 
@@ -87,23 +95,26 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
 
         err = csv_reader(db_wpr_name, db_conn, dir=wpr_dir, names=col_names, usecols=col, encoding='windows-1251', opt=reformat_wpr_data)
         if err:
-            return err
+            raise Exception(err)
 
         # =============== Обработка БД и выгрузка результата ==================
 
         get_NAKOP_matches(db_curs, osfr_db=db_osfr_name, loc_db=db_loc_name, man_db=db_man_name, popay_db=db_popay_name, wpr_db=db_wpr_name)
 
     except Exception as e:
-        return e
+        err = e
     finally:
         # Чистим БД на выходе
         try:
             db_curs.execute(f"DROP TABLE IF EXISTS {db_osfr_name}")
             db_curs.execute(f"DROP TABLE IF EXISTS {db_loc_name}")
-            db_curs.execute(f"DROP TABLE IF EXISTS {db_man_name}")
-            db_curs.execute(f"DROP TABLE IF EXISTS {db_popay_name}")
-            db_curs.execute(f"DROP TABLE IF EXISTS {db_wpr_name}")
-            db_curs.execute(f"DROP TABLE IF EXISTS res")
+            # db_curs.execute(f"DROP TABLE IF EXISTS {db_man_name}")
+            # db_curs.execute(f"DROP TABLE IF EXISTS {db_popay_name}")
+            # db_curs.execute(f"DROP TABLE IF EXISTS {db_wpr_name}")
+            # db_curs.execute(f"DROP TABLE IF EXISTS res")
         except Exception as e:
-            err = "Невозможно удалить БД" + str(e)
+            if err is None:
+                return "Невозможно удалить БД: " + str(e)
+
+        if err:
             return err

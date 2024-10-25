@@ -24,6 +24,8 @@ def start_to_vib(server, type_of_vib, out_path):
             try:
                 if "out_path" in config_data:
                     new_out_path = os.path.join(out_path, config_data["out_path"])
+                else:
+                    new_out_path = out_path
 
                 # Запуск браузера
                 driver = browser(new_out_path)

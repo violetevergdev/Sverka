@@ -5,7 +5,7 @@ from settings.settings import env
 
 def db_connection():
     if env == 'prod':
-        db_path = os.path.join(sys._MEIPASS, 'db/tmp.db')
+        db_path = os.path.join(sys._MEIPASS, 'db/tmp-c.db')
     else:
         db_path = 'db/tmp.db'
 

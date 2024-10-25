@@ -21,7 +21,9 @@ def xlsx_reader(dir: str, db_conn, db_curs, db_name: str, skiprows: int = 0, pro
 
                 df = pd.read_excel(file_path, skiprows=skiprows, na_filter=False)
 
-                processing_data_func(df, db_curs, db_name, file)
+                err = processing_data_func(df, db_curs, db_name, file)
+                if err is not None:
+                    raise Exception(err)
 
                 db_conn.commit()
 

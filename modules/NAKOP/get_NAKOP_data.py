@@ -28,17 +28,25 @@ def get_osfr_data(df, db_curs, db_name, file):
 
 def get_loc_data(df, db_curs, db_name, file):
     data = []
-    for _, row in df.iterrows():
-        if row[1] == "":
-            continue
-
-        pattern = r"^\d{3}-\d{3}-\d{3} \d{2}$"
-        if not re.match(pattern, row[0]):
-            raise ValueError("СНИЛС указан неверно! Файл -" + str(file))
-
-        data.append((row[0], str(file).split('.')[0]))
     try:
+        for _, row in df.iterrows():
+            if row[1] in ("", " ", None):
+                continue
+
+            num_from_snils = [i for i in list(row[0]) if i.isdigit()]
+            while len(num_from_snils) < 11:
+                num_from_snils.append('?')
+
+            num_from_snils.insert(3, '-')
+            num_from_snils.insert(7, '-')
+            num_from_snils.insert(11, ' ')
+            useful_snils = "".join(num_from_snils)
+
+
+            data.append((useful_snils, str(file).split('.')[0]))
+
         db_curs.executemany(
             f'INSERT INTO {db_name} VALUES (?, ?)', data)
+
     except Exception as e:
-        print(e)
+        return e
