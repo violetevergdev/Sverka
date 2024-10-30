@@ -3,6 +3,9 @@ import pandas as pd
 
 
 def get_FSS_matches(c, fss_db, vib_db, out_dir='OUT'):
+    if os.getenv('ENV_FOR_DYNACONF') == 'test':
+        out_dir = 'C:\Violet\DEV_PROJ\WORKING\Sverka\OUT'
+
     # Выполняем запрос
     query = c.execute(f'''select distinct *
 from {fss_db} as f

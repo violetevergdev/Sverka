@@ -3,6 +3,9 @@ import pandas as pd
 
 
 def get_RVP_matches(c, xml_db, xlsx_db, vib_db, out_path='OUT'):
+    if os.getenv('ENV_FOR_DYNACONF') == 'test':
+        out_path = 'C:\Violet\DEV_PROJ\WORKING\Sverka\OUT'
+
     # Выполняем запрос
     query = c.execute(f'''SELECT 
     x.*, p.*,

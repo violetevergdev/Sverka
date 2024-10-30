@@ -1,6 +1,6 @@
 # Сверка 
 
-   <img src="https://img.shields.io/badge/Version-1.1.0%20-blue" alt="Sverka">
+   <img src="https://img.shields.io/badge/Version-1.2.0%20-blue" alt="Sverka">
    <img src="https://img.shields.io/badge/License-MIT-brightgreen" alt="License">
 
  
@@ -26,7 +26,8 @@
 #### Настройка перед использованием
 
 Для работы необходимо разархивировать в корень диска C:\ архив ``soft_for_py_exe`` и, в удобное для вас место, архив с рабочей директорией ``Sverka v... (compiled)`` (находятся в Releases)
-Также необходима правка путей в config/Common?routes.json
+
+Также необходима правка путей в `config/Common/routes.json`
 
 
 ### Использование

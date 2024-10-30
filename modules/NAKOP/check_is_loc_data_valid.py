@@ -13,7 +13,6 @@ def check_loc_data_on_failed_files(loc_dir, skiprows=0):
                 df = pd.read_excel(file_path, skiprows=skiprows, na_filter=False)
 
                 for _, row in df.iterrows():
-                    print(row[0], file, loc_dir)
                     if row[1] in ("", " ", None):
                         continue
 

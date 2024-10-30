@@ -11,11 +11,13 @@ from modules.NAKOP.get_NAKOP_matches import get_NAKOP_matches
 from modules.NAKOP.reformat_NAKOP_data import reformat_popay_data, reformat_wpr_data
 
 
-def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
+def start_NAKOP(in_path, type_of_sver, db_conn, db_curs, progress_value, progress_status):
     err = None
     try:
         # Чтение рабочей директории
         xlsx, vib, loc = read_main_dir(in_path, type_of_sver)
+
+        progress_status.set('Проверка файлов DONT_LOC')
 
         is_continue, failed_files = is_loc_data_valid(loc, skiprows=2)
 
@@ -23,7 +25,11 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
             err = 'В следующих файлах отсутствует СНИЛС: ' + str(failed_files)
             raise Exception(err)
 
+        progress_value.set(5 + progress_value.get())
+
         # =============== Чтение файла xlsx OSFR ==================
+
+        progress_status.set('Чтение файла ОСФР')
 
         # Создание таблицы в БД для файлов из XLSX
         db_osfr_name = 'osfr_base'
@@ -33,7 +39,11 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
         if err:
             raise Exception(err)
 
+        progress_value.set(10 + progress_value.get())
+
         # =============== Чтение файла xlsx LOC ==================
+
+        progress_status.set('Чтение файлов DONT LOC')
 
         # Создание таблицы в БД для файлов из XLSX
         db_loc_name = 'loc_base'
@@ -43,7 +53,17 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
         if err:
             raise Exception(err)
 
-        # =============== Чтение csv файлов MAN ==================
+        progress_value.set(10 + progress_value.get())
+
+        progress_status.set('Индексация СНИЛС из DONT LOC')
+
+        db_curs.execute(f'CREATE INDEX snils_dtloc_ind ON {db_loc_name} (СНИЛС)')
+
+        progress_value.set(7 + progress_value.get())
+
+        # =============== Чтение csv файлов MAN =================
+
+        progress_status.set('Чтение файлов  MAN')
 
         # Создание таблицы в БД для файлов из МиЦ
         db_man_name = 'man_base'
@@ -61,7 +81,17 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
         if err:
             raise Exception(err)
 
+        progress_value.set(20 + progress_value.get())
+
+        progress_status.set('Индексация СНИЛС из MAN')
+
+        db_curs.execute(f'CREATE INDEX snils_ind ON {db_man_name} (MAN_NPERS)')
+
+        progress_value.set(7 + progress_value.get())
+
         # =============== Чтение csv файлов POPAY ==================
+
+        progress_status.set('Чтение файлов POPAY')
 
         # Создание таблицы в БД для файлов из МиЦ
         db_popay_name = 'popay_base'
@@ -79,7 +109,11 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
         if err:
             raise Exception(err)
 
+        progress_value.set(10 + progress_value.get())
+
         # =============== Чтение csv файлов WPR ==================
+
+        progress_status.set('Чтение файлов WPR')
 
         # Создание таблицы в БД для файлов из МиЦ
         db_wpr_name = 'wpr_base'
@@ -97,9 +131,15 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
         if err:
             raise Exception(err)
 
+        progress_value.set(10 + progress_value.get())
+
         # =============== Обработка БД и выгрузка результата ==================
 
+        progress_status.set('Обработка БД')
+
         get_NAKOP_matches(db_curs, osfr_db=db_osfr_name, loc_db=db_loc_name, man_db=db_man_name, popay_db=db_popay_name, wpr_db=db_wpr_name)
+
+        progress_value.set(200 - progress_value.get())
 
     except Exception as e:
         err = e
@@ -108,10 +148,10 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs):
         try:
             db_curs.execute(f"DROP TABLE IF EXISTS {db_osfr_name}")
             db_curs.execute(f"DROP TABLE IF EXISTS {db_loc_name}")
-            # db_curs.execute(f"DROP TABLE IF EXISTS {db_man_name}")
-            # db_curs.execute(f"DROP TABLE IF EXISTS {db_popay_name}")
-            # db_curs.execute(f"DROP TABLE IF EXISTS {db_wpr_name}")
-            # db_curs.execute(f"DROP TABLE IF EXISTS res")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_man_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_popay_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS {db_wpr_name}")
+            db_curs.execute(f"DROP TABLE IF EXISTS res")
         except Exception as e:
             if err is None:
                 return "Невозможно удалить БД: " + str(e)

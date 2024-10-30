@@ -1,7 +1,10 @@
 import os
 import pandas as pd
 
-def get_FSS_BASE_matches(c, fss_db, vib_db, out_dir='./OUT'):
+def get_FSS_BASE_matches(c, fss_db, vib_db, out_dir='OUT'):
+    if os.getenv('ENV_FOR_DYNACONF') == 'test':
+        out_dir = 'C:\Violet\DEV_PROJ\WORKING\Sverka\OUT'
+
     # Выполняем запрос
     query = c.execute(f'''SELECT
     v.fa || ' ' || v.im || ' ' || v.ot AS ФИО_НВП,

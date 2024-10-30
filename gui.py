@@ -36,7 +36,12 @@ def check_login():
         with open('config/Common/login.json', 'w') as f:
             json.dump(login_json, f, indent=2)
 
-
+def show_progress_bar(main, type_of_sver):
+    progress_value = tk.IntVar(value=0)
+    progress_status = tk.StringVar(value=f'Запускается сверка - {type_of_sver}')
+    ttk.Progressbar(main, orient="horizontal", length=200, variable=progress_value).grid(row=0, column=1, rowspan=2, padx=15, pady=10)
+    ttk.Label(main, textvariable=progress_status).grid(row=2, column=0, columnspan=2, padx=15)
+    return progress_value, progress_status
 def gui():
     def start_sver():
         type_of_sver = selected_type_of_sver.get()
@@ -45,19 +50,27 @@ def gui():
         root.withdraw()
 
         def run_processing():
-            err = sver_main(type_of_sver, vib_state)
+            err = sver_main(type_of_sver, vib_state, progress_value, progress_status)
             if err:
                 mb.showerror('Error', 'Ошибка: ' + str(err))
                 root.focus()
             else:
                 mb.showinfo('Готово', 'Обработка завершена!')
 
+            progress_wind.destroy()
             root.deiconify()
+
+        progress_wind = tk.Toplevel()
+        progress_wind.resizable(width=False, height=False)
+        progress_wind.geometry('230x80')
+
+        progress_value, progress_status = show_progress_bar(progress_wind, type_of_sver)
 
         processing_thread = threading.Thread(target=run_processing)
         processing_thread.start()
 
-        mb.showinfo('ИДЕТ ОБРАБОТКА', 'Обработка выполняется, дождитесь сообщения об окончании...')
+        progress_wind.protocol("WM_DELETE_WINDOW", lambda: progress_wind.destroy())
+        progress_wind.mainloop()
 
     root = tk.Tk()
     root.geometry('245x310')
@@ -98,19 +111,16 @@ def gui():
     start_btn = tk.Button(root, text='Обработать списки', font=20, command=start_sver)
     start_btn.grid(row=5, column=1, rowspan=2, pady=15)
 
-    def destroyer():
-        root.quit()
-
-    root.protocol("WM_DELETE_WINDOW", destroyer)
-
-    root.mainloop()
-
     if env == "prod":
         icon_path = os.path.join(sys._MEIPASS, "ic.ico")
     else:
         icon_path = "ic.ico"
     root.iconbitmap(icon_path)
 
+    def destroyer():
+        root.quit()
+
+    root.protocol("WM_DELETE_WINDOW", destroyer)
     root.mainloop()
 
 

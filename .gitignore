@@ -4,8 +4,10 @@ db
 /IN/*
 /OUT/*
 
-.idea
-__pycache__
+*\.idea
+*\__pycache__
+*\build
+*\dist
 
 
 
