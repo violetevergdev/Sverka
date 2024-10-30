@@ -3,7 +3,6 @@ from modules.Common.customization.db_connection import db_connection
 from modules.svo.start_SVO_sver import start_SVO_sver
 
 
-# Запуск скриптов в зависимости от типа сверки и условия выборки
 def sver_main():
     in_path = './IN'
 
