@@ -1,11 +1,9 @@
 import os
 import pandas as pd
+from settings.config import settings as conf
 
 
-def get_RVP_matches(c, xml_db, xlsx_db, vib_db, out_path='OUT'):
-    if os.getenv('ENV_FOR_DYNACONF') == 'test':
-        out_path = 'C:\Violet\DEV_PROJ\WORKING\Sverka\OUT'
-
+def get_RVP_matches(c, xml_db, xlsx_db, vib_db):
     # Выполняем запрос
     query = c.execute(f'''SELECT 
     x.*, p.*,
@@ -35,7 +33,7 @@ ORDER BY x.Фамилия''')
     # Получаем DataFrame
     results = pd.DataFrame(query)
     # Устанавливаем выходной путь
-    out = os.path.join(out_path, 'Обработанный список РПВ.xlsx')
+    out = os.path.join(conf.out_path, 'Обработанный список РПВ.xlsx')
     # Выгружаем результат
     results.to_excel(out, header=column_names, index=False, engine='openpyxl')
 

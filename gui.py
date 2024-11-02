@@ -8,7 +8,7 @@ from tkinter.simpledialog import askstring
 import json
 from modules.sverka_main import sver_main
 import sys
-from settings.settings import env
+from settings.config import env
 
 def check_login():
     with open('config/Common/login.json', 'r') as f:

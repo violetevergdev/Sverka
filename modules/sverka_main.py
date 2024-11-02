@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 from modules.NAKOP.start_NAKOP_sver import start_NAKOP
 from modules.vib_main import start_vib_main
@@ -9,15 +8,14 @@ from modules.RVP.start_RVP_sver import start_RVP
 from modules.FSS.start_FSS_sver import start_FSS
 from modules.FSS_BASE.start_FSS_BASE_sver import start_FSS_BASE
 
+from settings.config import settings as conf
+
 
 # Запуск скриптов в зависимости от типа сверки и условия выборки
 def sver_main(type_of_sver, vib_state, progress_value, progress_status):
     # Задаем пути рабочих директорий
-    in_path = os.path.join('IN', type_of_sver)
+    in_path = os.path.join(conf.in_path, type_of_sver)
     out_vib_dir = os.path.join(os.getcwd(), in_path, 'VIB')
-
-    if os.getenv('ENV_FOR_DYNACONF') == 'test':
-        in_path = os.path.join('C:\Violet\DEV_PROJ\WORKING\Sverka\IN', type_of_sver)
 
     # Запуск выборки при наличии условия
     if vib_state is True:

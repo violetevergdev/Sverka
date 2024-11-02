@@ -1,3 +1,4 @@
+from dynaconf import Dynaconf
 import sys
 import os
 from dotenv import load_dotenv
@@ -11,10 +12,15 @@ def get_env(name):
         env_path = os.path.join(sys._MEIPASS, '.env')
         load_dotenv(env_path)
 
-        env = os.getenv('ENV_FOR_DYNACONF')
+        env = os.getenv(name)
     return env
-
 
 # Получаем значение окружения
 env = get_env('ENV_FOR_DYNACONF')
 
+settings = Dynaconf(
+    envvar_prefix="DYNACONF",
+    load_dotenv=True,
+    environments=True,
+    settings_files=['./settings/settings.toml', './settings/.secrets.toml'],
+)

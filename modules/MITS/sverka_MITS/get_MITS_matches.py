@@ -1,11 +1,8 @@
 import os
 import pandas as pd
+from settings.config import settings as conf
 
-
-def get_MITS_matches(c, mits_db, vib_db, out_dir='OUT'):
-    if os.getenv('ENV_FOR_DYNACONF') == 'test':
-        out_dir = 'C:\Violet\DEV_PROJ\WORKING\Sverka\OUT'
-
+def get_MITS_matches(c, mits_db, vib_db):
     # Выполняем запрос
     query_tutor = c.execute(f'''SELECT 
     *
@@ -28,7 +25,7 @@ ORDER BY m."ФИО получателя"''')
     results_recipients = pd.DataFrame(query_recipients, columns=[col[0] for col in c.description])
 
     # Устанавливаем выходной путь
-    out = os.path.join(out_dir, 'Обработанный список МиЦ.xlsx')
+    out = os.path.join(conf.out_path, 'Обработанный список МиЦ.xlsx')
     # Записываем данные
     writer = pd.ExcelWriter(out)
     results_tutor.to_excel(writer, index=False, sheet_name='Опекуны')

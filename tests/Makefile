@@ -1,0 +1,3 @@
+
+t:
+	pytest -s

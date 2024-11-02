@@ -1,11 +1,9 @@
 import os
 import pandas as pd
-
-def get_NAKOP_matches(c, osfr_db, loc_db, man_db, popay_db, wpr_db, out_dir='OUT'):
-    if os.getenv('ENV_FOR_DYNACONF') == 'test':
-        out_dir = 'C:\Violet\DEV_PROJ\WORKING\Sverka\OUT'
+from settings.config import settings as conf
 
 
+def get_NAKOP_matches(c, osfr_db, loc_db, man_db, popay_db, wpr_db):
     # Обрабатываем запрос на вывод тех, кто не попал в заявку
     q_dont_loc = c.execute(f"""SELECT l.* FROM {loc_db} as l
 LEFT JOIN {osfr_db} as o ON l.СНИЛС = o.СНИЛС
@@ -60,7 +58,7 @@ where final_id is not null
     results = pd.DataFrame(query, columns=[col[0] for col in c.description])
 
     # Устанавливаем выходной путь
-    out = os.path.join(out_dir, 'Обработанный список [Накопительные].xlsx')
+    out = os.path.join(conf.out_path, 'Обработанный список [Накопительные].xlsx')
 
     # Записываем данные
     writer = pd.ExcelWriter(out)
