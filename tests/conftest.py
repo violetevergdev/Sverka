@@ -13,7 +13,7 @@ def fake_gui():
     progress_value = tk.IntVar()
     progress_status = tk.StringVar()
 
-    yield {"root": root, "progress_value": progress_value, "progress_status": progress_status}
+    yield {"progress_value": progress_value, "progress_status": progress_status}
 
     root.destroy()
 
@@ -37,23 +37,25 @@ def runtime_tracking():
 
     return _runtime_tracking
 
+
 @pytest.fixture()
 def setup_test_reader():
-    def _setup(func, db_name, dir_name, col_names, use_cols, skiprows=0, opt=None):
+    def _setup(db_name, col_names):
         conn, c = db_connection()
         c.execute(f'DROP TABLE IF EXISTS {db_name}')
 
         sql_col = ','.join(col_names)
         c.execute(f"""CREATE TABLE IF NOT EXISTS {db_name} ({sql_col})""")
 
-        # Передаем аргумент opt явно
-        err = func(db_name, conn, dir_name, col_names, use_cols, skiprows, opt=opt)
+        return conn
 
-        if err:
-            raise Exception(err)
-
-        return err
-
-    return _setup
+    yield _setup
 
 
+@pytest.fixture()
+def teardown_test_reader():
+    def _teardown(c, db_name):
+        res = c.execute(f"SELECT * FROM {db_name}").fetchall()
+        return res
+
+    return _teardown

@@ -8,5 +8,5 @@ db
 *\__pycache__
 *\build
 *\dist
-/tests/Test_IN/CSV/invalidSNILS/mock_wOformatSnils.csv
-/tests/Test_IN/CSV/validSNILS/mock_CSVdata.csv
+/tests/Test_IN/*
+

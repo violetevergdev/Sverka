@@ -12,12 +12,16 @@ def format_snils_with_fill_zero(unvalid_snils):
     if unvalid_snils == "":
         return None
 
+    if type(unvalid_snils) in (float, int):
+        if unvalid_snils == 0.0:
+            return None
+
     snils_str = str(unvalid_snils)
 
     if '.' in snils_str:
-        s = list(snils_str[:-2])
+        s = [i for i in snils_str[:-2] if i.isdigit()]
     else:
-        s = list(snils_str)
+        s = [i for i in snils_str if i.isdigit()]
 
     while len(s) != 11:
         s.insert(0, '0')
@@ -27,11 +31,12 @@ def format_snils_with_fill_zero(unvalid_snils):
     s.insert(11, ' ')
     return "".join(s)
 
+
 def format_date_from_dot_to_dash(date):
     """
     Функция преобразовывает дату из формата с точками в формат с "тире"
     :param date: 'dd.mm.yyyy'
-    :return: 'dd-mm-yyyy'
+    :return: 'yyyy-mm-dd'
     """
     if "-" in date or date == "":
         return date
@@ -40,14 +45,13 @@ def format_date_from_dot_to_dash(date):
         new_date = s[2] + '-' + s[1] + '-' + s[0]
         return new_date
 
+
 def to_str_type(num: Any) -> str:
     """ Функция преобразовывает значение в тип str
 
     В том числе -
         - удаляет "." и сл. символы после преобразования от float
     """
-    if type(num) == str:
-        return num
 
     s = str(num)
     if '.' in s:
