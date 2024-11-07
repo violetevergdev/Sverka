@@ -21,4 +21,9 @@ group by f.СНИЛС''')
     writer = pd.ExcelWriter(out)
     results.to_excel(writer, index=False)
 
+    worksheet = writer.sheets['Sheet1']
+    for i, col in enumerate(results):
+        max_length = max(results[col].astype(str).map(len).max(), len(col)) + 1
+        worksheet.set_column(i, i, max_length)
+
     writer.close()

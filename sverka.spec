@@ -5,7 +5,7 @@ a = Analysis(
     ['gui.py'],
     pathex=[],
     binaries=[],
-    datas=[('db/tmp-c.db', 'db'), ('.env', '.'), ('ic.ico', '.')],
+    datas=[('db/tmp-c.db', 'db'), ('.env', '.'), ('ic.ico', '.'), ('settings/settings.toml', 'settings')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

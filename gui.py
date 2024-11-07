@@ -8,7 +8,8 @@ from tkinter.simpledialog import askstring
 import json
 from modules.sverka_main import sver_main
 import sys
-from settings.config import env
+from settings.config import env, settings
+
 
 def check_login():
     with open('config/Common/login.json', 'r') as f:
@@ -36,12 +37,15 @@ def check_login():
         with open('config/Common/login.json', 'w') as f:
             json.dump(login_json, f, indent=2)
 
+
 def show_progress_bar(main, type_of_sver):
     progress_value = tk.IntVar(value=0)
     progress_status = tk.StringVar(value=f'Запускается сверка - {type_of_sver}')
     ttk.Progressbar(main, orient="horizontal", length=200, variable=progress_value).grid(row=0, column=1, rowspan=2, padx=15, pady=10)
     ttk.Label(main, textvariable=progress_status).grid(row=2, column=0, columnspan=2, padx=15)
     return progress_value, progress_status
+
+
 def gui():
     def start_sver():
         type_of_sver = selected_type_of_sver.get()
@@ -81,6 +85,9 @@ def gui():
     root.attributes('-topmost', True)
     root.title('Сверка')
 
+    style = ttk.Style()
+    style.configure("r.TLabel", foreground="gray")
+
     check_login()
 
     type_frame = ttk.LabelFrame(root, text='Выберите тип сверки:', style="data.TLabelframe")
@@ -109,7 +116,14 @@ def gui():
     vib_radio.grid(row=3, column=1, rowspan=2)
 
     start_btn = tk.Button(root, text='Обработать списки', font=20, command=start_sver)
-    start_btn.grid(row=5, column=1, rowspan=2, pady=15)
+    start_btn.grid(row=5, column=1, rowspan=2, pady=10)
+
+    vers_frame = ttk.Frame(root)
+    vers_frame.grid(row=7, column=1, columnspan=2, sticky='sn', padx=10)
+
+    vers_label = ttk.Label(vers_frame, text='Версия: ' + settings.vers, style="r.TLabel")
+    vers_label.grid(row=0, column=1, rowspan=2)
+
 
     if env == "prod":
         icon_path = os.path.join(sys._MEIPASS, "ic.ico")
