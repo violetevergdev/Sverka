@@ -1,4 +1,4 @@
-def create_vib_db(db_curs, db_name):
+def create_man_db(db_curs, db_name):
     db_curs.execute(f'''
     CREATE TABLE IF NOT EXISTS {db_name} (
        'Дата смерти',
@@ -6,6 +6,18 @@ def create_vib_db(db_curs, db_name):
         'Район',
         'Регион',
         'pw'
+    )
+    ''')
+
+def create_adv_db(db_curs, db_name):
+    db_curs.execute(f'''
+    CREATE TABLE IF NOT EXISTS {db_name} (
+       'Дата создания',
+        'СНИЛС',
+        'Дата смерти',
+        'Дата записи акта',
+        'Номер акта о смерти',
+        'Орган ЗАГС'
     )
     ''')
 

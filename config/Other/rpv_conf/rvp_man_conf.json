@@ -1,0 +1,48 @@
+{
+   "__comm__": "В данном файле указаны значения ID элементов выборки (checkbox) используемых при работе с выборкой данных для РВП МСК",
+   
+   "out_path": "MAN",
+
+  "vib-fields": {
+    "database": [
+      "PF"
+    ],
+    "tables": [
+      "PF~MAN"
+    ],
+    "fields": [
+      "MAN~DSM",
+      "MAN~NPERS",
+	  "MAN~PW",
+      "MAN~RA",
+      "MAN~RE"
+    ]
+  },
+
+  "filling-data": {
+    "dsm": {
+      "select": "form1:table1:0:menu1",
+      "option": 13,
+      "set_ot": "form1:table1:0:text7",
+      "set_ot_keys": "2020-01-01",
+      "set_do": "form1:table1:0:text9"
+    },
+    "npers": {
+      "select": "form1:table1:1:menu1",
+      "option": 3
+    },
+	"pw": {
+      "select": "form1:table1:2:menu1",
+      "option": 5,
+      "set": "form1:table1:2:text7",
+      "set_keys": "1"
+    },
+    "ra": {
+      "select": "form1:table1:3:menu1",
+      "option": 11,
+      "set": "form1:table1:3:text7",
+      "set_keys": "0"
+    }
+  }
+}
+

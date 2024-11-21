@@ -1,5 +1,5 @@
 
-def get_RVP_XML_data(item):
+def get_RPV_XML_data(item):
     # Обрабатываем конец записей получателей
     if item[0].tag.endswith("ПенсияВВ"):
         return 'BREAK'

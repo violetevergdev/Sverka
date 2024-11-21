@@ -4,7 +4,7 @@ from modules.NAKOP.start_NAKOP_sver import start_NAKOP
 from modules.vib_main import start_vib_main
 from modules.Common.customization.db_connection import db_connection
 from modules.MITS.start_MITS_sver import start_MITS
-from modules.RVP.start_RVP_sver import start_RVP
+from modules.RPV.start_RPV_sver import start_RPV
 from modules.FSS.start_FSS_sver import start_FSS
 from modules.FSS_BASE.start_FSS_BASE_sver import start_FSS_BASE
 
@@ -36,7 +36,7 @@ def sver_main(type_of_sver, vib_state, progress_value, progress_status):
             if err:
                 return err
         elif type_of_sver == 'РПВ':
-            err = start_RVP(in_path, type_of_sver, conn, c, progress_value, progress_status)
+            err = start_RPV(in_path, type_of_sver, conn, c, progress_value, progress_status)
             if err:
                 return err
         elif type_of_sver == 'ФСС':

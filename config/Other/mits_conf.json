@@ -6,14 +6,14 @@
       "VPL"
     ],
     "tables": [
-      "VPL_PO",
-      "VPL_POPAY"
+      "VPL~PO",
+      "VPL~POPAY"
     ],
     "fields": [
-      "PO_NPERS",
-      "PO_RA",
-      "PO_RE",
-      "POPAY_PW"
+      "PO~NPERS",
+      "PO~RA",
+      "PO~RE",
+      "POPAY~PW"
     ]
   },
 

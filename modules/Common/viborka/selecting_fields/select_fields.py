@@ -16,7 +16,7 @@ def select_fields(driver, vib_fields, useful_btn):
 
     while start_iteration:
         for el in vib_fields:
-            names = el.split("_")
+            names = el.split("~")
             table_name = names[0]
             field_name = names[1]
 

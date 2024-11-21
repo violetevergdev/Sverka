@@ -12,7 +12,7 @@ def get_vib_config(type_of_vib):
 
         # Получаем конфигурационные данные для выборок
         type_config = {
-            "РПВ": ["config/Other/rvp_conf.json"],
+            "РПВ": ["config/Other/rpv_conf/rvp_man_conf.json", "config/Other/rpv_conf/rvp_adv8_conf.json"],
             "МСП": ["config/Other/mits_conf.json"],
             "ФСС": ["config/Other/fss_conf.json"],
             "ФСС-БАЗА": ["config/Other/fss_base_conf.json"],
