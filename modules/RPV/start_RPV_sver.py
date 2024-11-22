@@ -1,14 +1,12 @@
 import os
 
 from modules.Common.read_main_dir import read_main_dir
-from modules.RPV.sverka_RPV.create_rpv_db import create_xml_db, create_adv_db
+from modules.Common.create_db import create_db
 from modules.Common.readers.xml_reader import xml_reader
 from modules.RPV.sverka_RPV.get_RPV_XML_data import get_RPV_XML_data
 from modules.RPV.sverka_RPV.get_RPV_XML_data import insert_RVP_XML_data
-from modules.RPV.sverka_RPV.create_rpv_db import create_xlsx_db
 from modules.Common.readers.xlsx_reader import xlsx_reader
 from modules.RPV.sverka_RPV.get_RPV_XLSX_data import get_RPV_XLSX_data
-from modules.RPV.sverka_RPV.create_rpv_db import create_man_db
 from modules.Common.readers.csv_reader import csv_reader
 from modules.RPV.sverka_RPV.get_RPV_matches import get_RPV_matches
 
@@ -23,9 +21,14 @@ def start_RPV(in_path, type_of_sver, db_conn, db_curs, progress_value, progress_
 
         progress_status.set('Чтение XML')
 
-        # Создание таблицы в БД для файлов из XML РПВ
+        # Задаем наименование БД
         db_xml_name = 'xml_base'
-        create_xml_db(db_curs, db_xml_name)
+
+        # Задаем наименование столбцов таблицы БД
+        col_names = ['СНИЛС', 'Фамилия', 'Имя', 'Отчество', 'Дата рождения', 'Код валюты', 'Сумма выплаты РФ']
+
+        # Создание таблицы в БД для файлов из XML РПВ
+        create_db(db_curs, db_xml_name, col_names)
 
         err = xml_reader(db_xml_name, db_conn, db_curs, xml_dir, depth=[0, 5],
                          data_extract_func=get_RPV_XML_data,
@@ -39,9 +42,15 @@ def start_RPV(in_path, type_of_sver, db_conn, db_curs, progress_value, progress_
 
         progress_status.set('Чтение Картотеки')
 
-        # Создание таблицы в БД для файлов из XLSX (картотека) РПВ
+        # Задаем наименование БД
         db_xlsx_name = 'xlsx_base'
-        create_xlsx_db(db_curs, db_xlsx_name)
+
+        # Задаем наименование столбцов таблицы БД
+        col_names = ['Вид выплаты_pfr', 'СНИЛС_pfr', 'Фамилия_pfr', 'Имя_pfr', 'Отчество_pfr',
+                     'Дата рождения_pfr', 'Сумма_pfr', 'Район_pfr']
+
+        # Создание таблицы в БД для файлов из XLSX (картотека) РПВ
+        create_db(db_curs, db_xlsx_name, col_names)
 
         err = xlsx_reader(xlsx_dir, db_conn, db_curs, db_name=db_xlsx_name,
                           skiprows=6, processing_data_func=get_RPV_XLSX_data)
@@ -54,12 +63,14 @@ def start_RPV(in_path, type_of_sver, db_conn, db_curs, progress_value, progress_
 
         progress_status.set('Чтение выборки MAN')
 
-        # Создание таблицы в БД для файлов из VIB
+        # Задаем наименование БД
         db_man_name = 'man_base'
-        create_man_db(db_curs, db_man_name)
 
         # Задаем название столбцам
         col_names = ['Дата смерти', 'СНИЛС', 'Район', 'Регион', 'pw']
+
+        # Создание таблицы в БД для файлов из VIB
+        create_db(db_curs, db_man_name, col_names)
 
         # Задаем индексы используемых столбцов
         col = [0, 1, 2, 3, 4]
@@ -83,12 +94,14 @@ def start_RPV(in_path, type_of_sver, db_conn, db_curs, progress_value, progress_
 
         progress_status.set('Чтение выборки ADV8')
 
-        # Создание таблицы в БД для файлов из VIB
+        # Задаем наименование БД
         db_adv8_name = 'adv8_base'
-        create_adv_db(db_curs, db_adv8_name)
 
         # Задаем название столбцам
         col_names = ['Дата создания', 'СНИЛС', 'Дата смерти', 'Дата записи акта', 'Номер акта о смерти', 'Орган ЗАГС']
+
+        # Создание таблицы в БД для файлов из VIB
+        create_db(db_curs, db_adv8_name, col_names)
 
         # Задаем индексы используемых столбцов
         col = [0, 2, 3, 4, 5, 6]

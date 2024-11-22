@@ -1,8 +1,7 @@
 from modules.Common.read_main_dir import read_main_dir
-from modules.MITS.sverka_MITS.create_mits_db import create_mits_db
+from modules.Common.create_db import create_db
 from modules.MITS.sverka_MITS.refactor_mits_data import refactor_mits_data
 from modules.Common.readers.csv_reader import csv_reader
-from modules.MITS.sverka_MITS.create_mits_db import create_msp_db
 from modules.MITS.sverka_MITS.get_MITS_matches import get_MITS_matches
 
 
@@ -17,13 +16,15 @@ def start_MITS(in_path, type_of_sver, db_conn, db_curs, progress_value, progress
 
         progress_status.set('Чтение файлов МиЦ')
 
-        # Создание таблицы в БД для файлов из МиЦ
+        # Задаем название БД
         db_mits_name = 'mits_base'
-        create_mits_db(db_curs, db_mits_name)
 
         # Задаем название столбцам
         col_names = ['СНИЛС получателя', 'ФИО получателя', 'СНИЛС л-о',
                      'ФИО л-о', 'Дата смерти получателя', 'Дата смерти л-о']
+
+        # Создаем таблицу в БД для файлов из МиЦ
+        create_db(db_conn, db_mits_name, col_names)
 
         # Задаем индексы используемых столбцов
         col = [6, 7, 8, 9, 10, 11]
@@ -39,12 +40,14 @@ def start_MITS(in_path, type_of_sver, db_conn, db_curs, progress_value, progress
 
         progress_status.set('Чтение выборки')
 
-        # Создание таблицы в БД для файлов из VIB
+        # Задаем название БД
         db_msp_name = 'vib_msp_base'
-        create_msp_db(db_curs, db_msp_name)
 
         # Задаем название столбцам
         col_names = ['СНИЛС', 'Район', 'pw']
+
+        # Создаем таблицу в БД для файлов из VIB
+        create_db(db_curs, db_msp_name, col_names)
 
         # Задаем индексы используемых столбцов
         col = [0, 1, 3]

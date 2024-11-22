@@ -1,10 +1,9 @@
 from modules.Common.read_main_dir import read_main_dir
-from modules.FSS.sverka_FSS.create_fss_db import create_fss_db
 from modules.Common.readers.xlsx_reader import xlsx_reader
 from modules.FSS.sverka_FSS.get_FSS_XLSX_data import get_FSS_XLSX_data
-from modules.FSS.sverka_FSS.create_fss_db import create_vib_db
 from modules.Common.readers.csv_reader import csv_reader
 from modules.FSS.sverka_FSS.get_FSS_matches import get_FSS_matches
+from modules.Common.create_db import create_db
 
 def start_FSS(in_path, type_of_sver, db_conn, db_curs, progress_value, progress_status):
     err = None
@@ -16,9 +15,14 @@ def start_FSS(in_path, type_of_sver, db_conn, db_curs, progress_value, progress_
 
         progress_status.set('Чтение файлов ФСС')
 
-        # Создание таблицы в БД
+        # Уст. имя БД
         db_xlsx_name = 'fss_base'
-        create_fss_db(db_curs, db_xlsx_name)
+
+        # Уст. имена столбцов
+        col_names = ['Имя_Файла', 'ФИО', 'СНИЛС']
+
+        # Создание таблицы в БД
+        create_db(db_curs, db_xlsx_name, col_names)
 
         err = xlsx_reader(xlsx_dir, db_conn, db_curs, db_name=db_xlsx_name,
                           skiprows=4, processing_data_func=get_FSS_XLSX_data)
@@ -31,12 +35,14 @@ def start_FSS(in_path, type_of_sver, db_conn, db_curs, progress_value, progress_
 
         progress_status.set('Чтение выборки')
 
-        # Создание таблицы в БД для файлов из VIB
+        # Уст. имя БД
         db_vib_name = 'vib_base'
-        create_vib_db(db_curs, db_vib_name)
 
         # Задаем название столбцам
         col_names = ['dsm', 'npers', 'pw', 'ra', 're']
+
+        # Создание таблицы в БД для файлов из VIB
+        create_db(db_curs, db_vib_name, col_names)
 
         # Задаем индексы используемых столбцов
         col = [0, 1, 2, 3, 4]
