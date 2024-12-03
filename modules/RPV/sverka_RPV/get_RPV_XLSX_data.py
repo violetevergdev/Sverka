@@ -1,6 +1,6 @@
 
 
-def get_RVP_XLSX_data(df, db_curs, db_name, file=None):
+def get_RPV_XLSX_data(df, db_curs, db_name, file=None):
     data = []
     for _, row in df.iterrows():
         # Не пушим пустые записи

@@ -46,6 +46,9 @@ def vib_routes(driver, config_data, server, type_of_op):
 
         WebDriverWait(driver, 360).until(EC.presence_of_element_located((By.ID, useful_btn["save_btn"])))
 
+        if driver.find_element(By.ID, 'form1:text1').text in ('-1', '0'):
+            raise AssertionError('Проблемы с сервером, получено строк: -1 ')
+
         save_btn = driver.find_element(By.ID, useful_btn["save_btn"])
         save_btn.click()
 

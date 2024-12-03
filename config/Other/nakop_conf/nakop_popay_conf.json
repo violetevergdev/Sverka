@@ -8,15 +8,15 @@
       "VPL"
     ],
     "tables": [
-      "VPL_POPAY"
+      "VPL~POPAY"
     ],
     "fields": [
-      "POPAY_AMOUNT",
-      "POPAY_ID",
-      "POPAY_NP",
-      "POPAY_NVP",
-      "POPAY_SPOSOB",
-      "POPAY_VIDVPL"
+      "POPAY~AMOUNT",
+      "POPAY~ID",
+      "POPAY~NP",
+      "POPAY~NVP",
+      "POPAY~SPOSOB",
+      "POPAY~VIDVPL"
     ]
   },
 

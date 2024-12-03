@@ -6,17 +6,17 @@
       "PF"
     ],
     "tables": [
-      "PF_MAN"
+      "PF~MAN"
     ],
     "fields": [
-      "MAN_DPW",
-      "MAN_DSM",
-      "MAN_FA",
-      "MAN_IM",
-      "MAN_NPERS",
-      "MAN_OT",
-      "MAN_RA",
-      "MAN_RE"
+      "MAN~DPW",
+      "MAN~DSM",
+      "MAN~FA",
+      "MAN~IM",
+      "MAN~NPERS",
+      "MAN~OT",
+      "MAN~RA",
+      "MAN~RE"
     ]
   },
 

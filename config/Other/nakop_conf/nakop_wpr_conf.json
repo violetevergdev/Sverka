@@ -8,13 +8,13 @@
       "KL"
     ],
     "tables": [
-      "KL_WPR"
+      "KL~WPR"
     ],
     "fields": [
-      "WPR_KOD",
-      "WPR_NAME",
-      "WPR_NUS",
-      "WPR_RA"
+      "WPR~KOD",
+      "WPR~NAME",
+      "WPR~NUS",
+      "WPR~RA"
     ]
   },
 

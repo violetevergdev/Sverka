@@ -1,11 +1,9 @@
 from modules.Common.read_main_dir import read_main_dir
-from modules.FSS_BASE.sverka_FSS_BASE.create_FSS_BASE_db import create_fss_db
 from modules.Common.readers.xlsx_reader import xlsx_reader
 from modules.FSS_BASE.sverka_FSS_BASE.get_FSS_BASE_XLSX_data import get_FSS_BASE_XLSX_data
-from modules.FSS_BASE.sverka_FSS_BASE.create_FSS_BASE_db import create_vib_db
 from modules.Common.readers.csv_reader import csv_reader
 from modules.FSS_BASE.sverka_FSS_BASE.get_FSS_BASE_matches import get_FSS_BASE_matches
-
+from modules.Common.create_db import create_db
 
 def start_FSS_BASE(in_path, type_of_sver, db_conn, db_curs, progress_value, progress_status):
     err = None
@@ -17,9 +15,16 @@ def start_FSS_BASE(in_path, type_of_sver, db_conn, db_curs, progress_value, prog
 
         progress_status.set('Чтение файла ФСС БАЗА')
 
-        # Создание таблицы в БД
+        # Уст. имя БД
         db_xlsx_name = 'fss_base'
-        create_fss_db(db_curs, db_xlsx_name)
+
+        # Уст. имена столбцам
+        col_names = ['ФИО', 'СНИЛС', 'Вид выплаты/компенсации', 'Сумма начисления', 'Идентификатор начисления',
+                     'Способ получения', 'Решение номер', 'Решение дата', 'Выплатить до', 'Дата оплаты',
+                     'Статус', 'Ошибка загрузки вв ФБ']
+
+        # Создание таблицы в БД
+        create_db(db_curs, db_xlsx_name, col_names)
 
         err = xlsx_reader(xlsx_dir, db_conn, db_curs, db_name=db_xlsx_name, processing_data_func=get_FSS_BASE_XLSX_data)
         if err:
@@ -37,12 +42,14 @@ def start_FSS_BASE(in_path, type_of_sver, db_conn, db_curs, progress_value, prog
 
         progress_status.set('Чтение выборки')
 
-        # Создание таблицы в БД для файлов из VIB
+        # Уст. имя БД
         db_vib_name = 'vib_base'
-        create_vib_db(db_curs, db_vib_name)
 
         # Задаем название столбцам
         col_names = ['dpw', 'dsm', 'fa', 'im', 'npers', 'ot', 'ra', 're']
+
+        # Создание таблицы в БД для файлов из VIB
+        create_db(db_curs, db_vib_name, col_names)
 
         # Задаем индексы используемых столбцов
         col = [0, 1, 2, 3, 4, 5, 6, 7]

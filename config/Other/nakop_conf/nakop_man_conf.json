@@ -8,15 +8,15 @@
       "PF"
     ],
     "tables": [
-      "PF_MAN"
+      "PF~MAN"
     ],
     "fields": [
-      "MAN_ID",
-      "MAN_NPERS",
-      "MAN_PE",
-      "MAN_PW",
-      "MAN_RA",
-      "MAN_RE"
+      "MAN~ID",
+      "MAN~NPERS",
+      "MAN~PE",
+      "MAN~PW",
+      "MAN~RA",
+      "MAN~RE"
     ]
   },
 
@@ -25,7 +25,7 @@
       "select": "form1:table1:1:menu1",
       "option": 11,
       "set": "form1:table1:1:text7",
-      "set_keys": "001-001-001 00"
+      "set_keys": "000-000-001 00"
     },
     "pw": {
       "select": "form1:table1:3:menu1",

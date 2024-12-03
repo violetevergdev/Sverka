@@ -3,8 +3,7 @@ import os
 from modules.Common.read_main_dir import read_main_dir
 from modules.Common.readers.csv_reader import csv_reader
 from modules.NAKOP.check_is_loc_data_valid import is_loc_data_valid
-
-from modules.NAKOP.create_NAKOP_db import *
+from modules.Common.create_db import create_db
 from modules.Common.readers.xlsx_reader import xlsx_reader
 from modules.NAKOP.get_NAKOP_data import get_osfr_data, get_loc_data
 from modules.NAKOP.get_NAKOP_matches import get_NAKOP_matches
@@ -31,9 +30,15 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs, progress_value, progres
 
         progress_status.set('Чтение файла ОСФР')
 
-        # Создание таблицы в БД для файлов из XLSX
+        # Уст. имя БД
         db_osfr_name = 'osfr_base'
-        create_osfr_db(db_curs, db_osfr_name)
+
+        # Уст. имена столбцов
+        col_names = ['Код Района', 'ИНН', 'Вариант Решения', 'СНИЛС', 'ФИО', 'Дата Рождения', 'Сумма ЕВ',
+                     'Дата Решения', 'Сумма расходов на оплату услуг', 'Примечание']
+
+        # Создание таблицы в БД для файлов из XLSX
+        create_db(db_curs, db_osfr_name, col_names)
 
         err = xlsx_reader(xlsx, db_conn, db_curs, db_name=db_osfr_name, processing_data_func=get_osfr_data)
         if err:
@@ -45,9 +50,14 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs, progress_value, progres
 
         progress_status.set('Чтение файлов DONT LOC')
 
-        # Создание таблицы в БД для файлов из XLSX
+        # Уст. имя БД
         db_loc_name = 'loc_base'
-        create_loc_db(db_curs, db_loc_name)
+
+        # Уст. имена столбцов
+        col_names = ['СНИЛС', 'Район']
+
+        # Создание таблицы в БД для файлов из XLSX
+        create_db(db_curs, db_loc_name, col_names)
 
         err = xlsx_reader(loc, db_conn, db_curs, db_name=db_loc_name, skiprows=2, processing_data_func=get_loc_data)
         if err:
@@ -65,12 +75,14 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs, progress_value, progres
 
         progress_status.set('Чтение файлов  MAN')
 
-        # Создание таблицы в БД для файлов из МиЦ
+        # Уст. имя БД
         db_man_name = 'man_base'
-        create_man_db(db_curs, db_man_name)
 
         # Задаем название столбцам
         col_names = ['MAN_ID', 'MAN_NPERS', 'MAN_PE', 'MAN_PW', 'MAN_RA', 'MAN_RE']
+
+        # Создание таблицы в БД для файлов из МиЦ
+        create_db(db_curs, db_man_name, col_names)
 
         # Задаем индексы используемых столбцов
         col = [0, 1, 2, 3, 4, 5]
@@ -93,12 +105,14 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs, progress_value, progres
 
         progress_status.set('Чтение файлов POPAY')
 
-        # Создание таблицы в БД для файлов из МиЦ
+        # Уст. имя БД
         db_popay_name = 'popay_base'
-        create_popay_db(db_curs, db_popay_name)
 
         # Задаем название столбцам
         col_names = ['POPAY_AMOUNT', 'POPAY_ID', 'POPAY_NP', 'POPAY_NVP', 'POPAY_SPOSOB']
+
+        # Создание таблицы в БД для файлов из МиЦ
+        create_db(db_curs, db_popay_name, col_names)
 
         # Задаем индексы используемых столбцов
         col = [0, 1, 2, 3, 4]
@@ -115,12 +129,12 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs, progress_value, progres
 
         progress_status.set('Чтение файлов WPR')
 
-        # Создание таблицы в БД для файлов из МиЦ
         db_wpr_name = 'wpr_base'
-        create_wpr_db(db_curs, db_wpr_name)
 
         # Задаем название столбцам
         col_names = ['WPR_KOD', 'WPR_NAME', 'WPR_NUS', 'WPR_RA']
+
+        create_db(db_curs, db_wpr_name, col_names)
 
         # Задаем индексы используемых столбцов
         col = [0, 1, 2, 3]
