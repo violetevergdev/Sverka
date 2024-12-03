@@ -21,13 +21,13 @@ def start_MITS(in_path, type_of_sver, db_conn, db_curs, progress_value, progress
 
         # Задаем название столбцам
         col_names = ['СНИЛС получателя', 'ФИО получателя', 'СНИЛС л-о',
-                     'ФИО л-о', 'Дата смерти получателя', 'Дата смерти л-о']
+                     'ФИО л-о', 'Дата смерти получателя', 'Дата смерти л-о', 'Смерть мобил']
 
         # Создаем таблицу в БД для файлов из МиЦ
         create_db(db_conn, db_mits_name, col_names)
 
         # Задаем индексы используемых столбцов
-        col = [6, 7, 8, 9, 10, 11]
+        col = [6, 7, 8, 9, 10, 11, 12]
 
         err = csv_reader(db_mits_name, db_conn, dir=mits_dir, names=col_names, usecols=col,
                    skiprows=1, encoding='windows-1251', opt=refactor_mits_data)
