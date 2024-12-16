@@ -110,6 +110,9 @@ def gui():
     type_NAKOP_radio = tk.Radiobutton(type_frame, text="НАКОП", font=20, variable=selected_type_of_sver, value="НАКОП")
     type_NAKOP_radio.grid(row=2, column=2, padx=5, pady=10)
 
+    type_OPEK_radio = tk.Radiobutton(type_frame, text="ОПЕКУНЫ", font=20, variable=selected_type_of_sver, value="ОПЕКУНЫ")
+    type_OPEK_radio.grid(row=3, column=2, padx=5, pady=10)
+
     check_vib_state = tk.BooleanVar(value=True)
 
     vib_radio = tk.Checkbutton(root, text="с выборкой", font=5, variable=check_vib_state)
