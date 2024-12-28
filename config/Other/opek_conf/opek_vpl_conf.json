@@ -1,0 +1,46 @@
+{
+   "__comm__": "В данном файле указаны наименования и ID элементов выборки (checkbox) используемых при работе с выборкой данных для OPEK - VPL",
+
+  "out_path": "VPL",
+
+  "vib-fields": {
+    "database": [
+      "VPL"
+    ],
+    "tables": [
+      "VPL~PO",
+      "VPL~POPEN"
+    ],
+    "fields": [
+      "PO~NPERS",
+      "PO~RA",
+      "PO~RE",
+      "POPEN~NP",
+      "POPEN~PEN_B",
+      "POPEN~SROKS"
+    ]
+  },
+
+  "filling-data": {
+    "npers": {
+      "select": "form1:table1:0:menu1",
+      "option": 11,
+      "set": "form1:table1:0:text7",
+      "set_keys": "000-000-001 00"
+    },
+    "re": {
+      "select": "form1:table1:2:menu1",
+      "option": 5,
+      "set": "form1:table1:2:text7",
+      "set_keys_M": "87",
+      "set_keys_MO": "60"
+    },
+    "np": {
+      "select": "form1:table1:3:menu1",
+      "option": 15,
+      "set": "form1:table1:3:text7",
+      "set_keys": "ПРЕ, ПРИ, СНЯ"
+    }
+  }
+}
+
