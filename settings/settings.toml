@@ -7,9 +7,9 @@ out_path = 'OUT'
 db_path = 'db/tmp-c.db'
 
 [dev]
-in_path = './IN'
-out_path = './OUT'
-db_path = 'db/tmp.db'
+in_path = '../IN'
+out_path = '../OUT'
+db_path = '../db/tmp.db'
 
 [test]
 in_path = '../IN'

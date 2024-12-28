@@ -8,6 +8,7 @@ from modules.RPV.start_RPV_sver import start_RPV
 from modules.FSS.start_FSS_sver import start_FSS
 from modules.FSS_BASE.start_FSS_BASE_sver import start_FSS_BASE
 from modules.OPEK.start_OPEK_sver import start_OPEK
+from modules.SEP_ADDR.start_ADDR_sver import start_ADDR
 
 from settings.config import settings as conf
 
@@ -56,6 +57,10 @@ def sver_main(type_of_sver, vib_state, progress_value, progress_status):
             err = start_OPEK(in_path, type_of_sver, conn, c, progress_value, progress_status)
             if err:
                 return err
+        elif type_of_sver == 'ADDR':
+            err = start_ADDR(in_path, type_of_sver, conn, c, progress_value, progress_status)
+            if err:
+                return err
 
     except Exception as e:
         err = 'Ошибка сверки: ' + str(e)
@@ -65,4 +70,4 @@ def sver_main(type_of_sver, vib_state, progress_value, progress_status):
 
 
 if __name__ == '__main__':
-    sver_main('ОПЕКУНЫ', False, None, None)
+    sver_main('ADDR', False, None, None)
