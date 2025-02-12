@@ -18,6 +18,8 @@ def get_vib_config(type_of_vib):
             "ФСС-БАЗА": ["config/Other/fss_base_conf.json"],
             "НАКОП": ["config/Other/nakop_conf/nakop_man_conf.json", "config/Other/nakop_conf/nakop_popay_conf.json",
                       "config/Other/nakop_conf/nakop_wpr_conf.json"],
+            "ОПЕКУНЫ": ["config/Other/opek_conf/opek_id_conf.json", "config/Other/opek_conf/opek_oid_conf.json",
+                        "config/Other/opek_conf/opek_vpl_conf.json"],
         }
 
         configuration_list = type_config.get(type_of_vib)

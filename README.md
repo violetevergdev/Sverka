@@ -1,6 +1,6 @@
 # Сверка 
 
-   <img src="https://img.shields.io/badge/Version-1.2.2%20-blue" alt="Sverka">
+   <img src="https://img.shields.io/badge/Version-1.2.3%20-blue" alt="Sverka">
    <img src="https://img.shields.io/badge/License-MIT-brightgreen" alt="License">
 
  

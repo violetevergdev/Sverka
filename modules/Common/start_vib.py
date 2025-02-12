@@ -18,7 +18,7 @@ def start_to_vib(server, type_of_vib, out_path):
 
         for type_config in conf_list:
             if type_config:
-                with open(type_config, "r") as f:
+                with open(type_config, "r", encoding='UTF-8') as f:
                     config_data = json.load(f)
 
             try:
