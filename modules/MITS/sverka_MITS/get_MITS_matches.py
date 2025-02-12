@@ -76,15 +76,4 @@ ORDER BY m."ФИО получателя"''')
         max_length = max(results_mobil_by_recip[col].astype(str).map(len).max(), len(col)) + 1
         worksheet.set_column(i, i, max_length)
 
-    # Ширина по содержимому
-    worksheet = writer.sheets['Опекуны']
-    for i, col in enumerate(results_tutor):
-        max_length = max(results_tutor[col].astype(str).map(len).max(), len(col)) + 1
-        worksheet.set_column(i, i, max_length)
-
-    worksheet = writer.sheets['Получатели']
-    for i, col in enumerate(results_recipients):
-        max_length = max(results_recipients[col].astype(str).map(len).max(), len(col)) + 1
-        worksheet.set_column(i, i, max_length)
-
     writer.close()

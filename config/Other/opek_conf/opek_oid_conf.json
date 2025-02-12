@@ -1,0 +1,43 @@
+{
+   "__comm__": "В данном файле указаны наименования и ID элементов выборки (checkbox) используемых при работе с выборкой данных для OPEK - OID",
+
+  "out_path": "OID_MAN",
+
+  "vib-fields": {
+    "database": [
+      "PF"
+    ],
+    "tables": [
+      "PF~MAN"
+    ],
+    "fields": [
+      "MAN~ID",
+      "MAN~NPERS",
+      "MAN~OID",
+      "MAN~PW",
+      "MAN~RA",
+      "MAN~RE"
+    ]
+  },
+
+  "filling-data": {
+    "oid": {
+      "select": "form1:table1:2:menu1",
+      "option": 3
+    },
+    "pw": {
+      "select": "form1:table1:3:menu1",
+      "option": 5,
+      "set": "form1:table1:3:text7",
+      "set_keys": "0"
+    },
+    "re": {
+      "select": "form1:table1:5:menu1",
+      "option": 5,
+      "set": "form1:table1:5:text7",
+      "set_keys_M": "87",
+      "set_keys_MO": "60"
+    }
+  }
+}
+
