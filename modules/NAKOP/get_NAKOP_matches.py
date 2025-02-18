@@ -30,13 +30,30 @@ LEFT JOIN {man_db} as m on o.СНИЛС == m.MAN_NPERS
     columns_p_str = ', '.join([f'p."{col}"' for col in columns_p])
 
     # Выполняем запрос
-    query = c.execute(f'''WITH filtered_man as (SELECT *,
+    query = c.execute(f'''WITH temp_filter as (SELECT *,
                          CASE
-                             WHEN COUNT(m.MAN_ID) OVER (PARTITION BY m.MAN_NPERS) > 1
+                             WHEN m.MAN_ID IS NULL OR m.MAN_ID = '' OR m.MAN_ID = ' '
+                                 THEN 'нет данных'
+                             WHEN COUNT(m.MAN_ID) OVER (PARTITION BY m.СНИЛС) > 1
                                  THEN (SELECT p.POPAY_ID FROM popay_base as p WHERE p.POPAY_ID = m.MAN_ID LIMIT 1)
                              ELSE m.MAN_ID
-                             END AS final_id
-                  FROM res as m)
+                        END AS temp_final_id
+                  FROM res as m),
+final_filter AS (
+    SELECT * ,
+           CASE
+               WHEN COUNT(*) OVER (PARTITION BY СНИЛС) > 1
+                    AND COUNT(temp_final_id) OVER (PARTITION BY СНИЛС) = 0
+               THEN 'нет id'
+               ELSE temp_final_id
+           END AS final_id
+    FROM temp_filter
+),
+deduplicated AS (
+    SELECT *,
+           ROW_NUMBER() OVER (PARTITION BY СНИЛС ORDER BY (final_id IS NOT NULL) DESC) AS rn
+    FROM final_filter
+)
 SELECT
     {columns_f_str},
     {columns_p_str},
@@ -47,11 +64,11 @@ CASE
     ElSE -1 * f."Сумма ЕВ"
     END AS "Разница сумм"
 FROM
-    filtered_man as f
+    deduplicated as f
 left join {popay_db} as p on f.final_id = p.POPAY_ID
 left join {wpr_db} as w1 on w1.WPR_KOD = p.POPAY_NVP and f.MAN_RA == w1.WPR_RA
 left join {wpr_db} as w2 on w2.WPR_KOD = w1.WPR_NUS and f.MAN_RA == w2.WPR_RA
-where final_id is not null 
+where rn = 1
 ''')
 
     # Получаем DataFrame

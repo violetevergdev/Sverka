@@ -2,7 +2,6 @@ import os
 
 from modules.Common.read_main_dir import read_main_dir
 from modules.Common.readers.csv_reader import csv_reader
-from modules.NAKOP.check_is_loc_data_valid import is_loc_data_valid
 from modules.Common.create_db import create_db
 from modules.Common.readers.xlsx_reader import xlsx_reader
 from modules.NAKOP.get_NAKOP_data import get_osfr_data, get_loc_data
@@ -15,16 +14,6 @@ def start_NAKOP(in_path, type_of_sver, db_conn, db_curs, progress_value, progres
     try:
         # Чтение рабочей директории
         xlsx, vib, loc = read_main_dir(in_path, type_of_sver)
-
-        progress_status.set('Проверка файлов DONT_LOC')
-
-        is_continue, failed_files = is_loc_data_valid(loc, skiprows=2)
-
-        if is_continue is False:
-            err = 'В следующих файлах отсутствует СНИЛС: ' + str(failed_files)
-            raise Exception(err)
-
-        progress_value.set(5 + progress_value.get())
 
         # =============== Чтение файла xlsx OSFR ==================
 

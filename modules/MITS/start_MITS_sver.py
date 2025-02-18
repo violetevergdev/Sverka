@@ -23,6 +23,7 @@ def start_MITS(in_path, type_of_sver, db_conn, db_curs, progress_value, progress
         col_names = ['СНИЛС получателя', 'ФИО получателя', 'СНИЛС л-о',
                      'ФИО л-о', 'Дата смерти получателя', 'Дата смерти л-о', 'Смерть мобил']
 
+
         # Создаем таблицу в БД для файлов из МиЦ
         create_db(db_conn, db_mits_name, col_names)
 
