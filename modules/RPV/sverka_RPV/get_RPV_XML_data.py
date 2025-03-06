@@ -1,8 +1,15 @@
 
 def get_RPV_XML_data(item):
     # Обрабатываем конец записей получателей
+    global sumrf
     if item[0].tag.endswith("ПенсияВВ"):
         return 'BREAK'
+
+    if item[6].tag.endswith("СуммаВыплатыРФ"):
+        sumrf = item[6].text
+    elif item[6].tag.endswith("СуммаВыплатыВВ") and item[7].tag.endswith("СуммаВыплатыРФ"):
+        sumrf = item[7].text
+
         # Обрабатываем записи без СНИЛСОВ
     if not item[0][0].tag.endswith("СНИЛС"):
         data = {
@@ -12,7 +19,7 @@ def get_RPV_XML_data(item):
             'Отчество': item[0][0][2].text,
             'Дата_рождения': item[0][2].text,
             'Код_валюты': item[1].text,
-            'Сумма_выплаты_РФ': item[6].text
+            'Сумма_выплаты_РФ': sumrf
         }
         return data
     else:
@@ -24,7 +31,7 @@ def get_RPV_XML_data(item):
             'Отчество': item[0][1][2].text,
             'Дата_рождения': item[0][3].text,
             'Код_валюты': item[1].text,
-            'Сумма_выплаты_РФ': item[6].text
+            'Сумма_выплаты_РФ': sumrf
         }
         return data
 
