@@ -1,0 +1,33 @@
+{
+   "__comm__": "В данном файле указаны наименования и ID элементов выборки (checkbox) используемых при работе с выборкой данных для ЧАЭС - POPAY",
+
+  "out_path": "POPAY",
+
+  "vib-fields": {
+    "database": [
+      "VPL"
+    ],
+    "tables": [
+      "VPL~PO",
+      "VPL~POPAY"
+    ],
+    "fields": [
+      "PO~NPERS",
+      "PO~RA",
+      "POPAY~DPW",
+      "POPAY~NVP",
+      "POPAY~PW",
+      "POPAY~SCHET"
+    ]
+  },
+
+  "filling-data": {
+    "npers": {
+      "select": "form1:table1:0:menu1",
+      "option": 11,
+      "set": "form1:table1:0:text7",
+      "set_keys": "000-000-001 00"
+    }
+  }
+}
+

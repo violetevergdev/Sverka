@@ -1,0 +1,25 @@
+{
+   "__comm__": "В данном файле указаны наименования и ID элементов выборки (checkbox) используемых при работе с выборкой данных для ЧАЭС - WPR",
+
+  "out_path": "WPR",
+
+  "vib-fields": {
+    "database": [
+      "KL"
+    ],
+    "tables": [
+      "KL~WPR"
+    ],
+    "fields": [
+      "WPR~BIK",
+      "WPR~KOD",
+      "WPR~NAME",
+      "WPR~NUS",
+      "WPR~RA"
+    ]
+  },
+
+  "filling-data": {
+  }
+}
+
