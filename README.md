@@ -2,7 +2,7 @@
 
 # Сверка
 
-   <img src="https://img.shields.io/badge/Version-1.2.5%20-blue" alt="Sverka">
+   <img src="https://img.shields.io/badge/Version-1.2.6%20-blue" alt="Sverka">
    <img src="https://img.shields.io/badge/License-MIT-brightgreen" alt="License">
 
 Программа для обработки данных из форматов XML, CSV и XLSX. Включает в себя два сценария: обработка файлов и выборка данных из программного комплекса для обработки. Реализована посредством интеграции SQLite и Selenuim.

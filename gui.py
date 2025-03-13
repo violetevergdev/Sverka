@@ -77,7 +77,7 @@ def gui():
         progress_wind.mainloop()
 
     root = tk.Tk()
-    root.geometry('245x310')
+    root.geometry('330x310')
     root.resizable(False, False)
     x = (root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
     y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
@@ -112,6 +112,10 @@ def gui():
 
     type_OPEK_radio = tk.Radiobutton(type_frame, text="ОПЕКУНЫ", font=20, variable=selected_type_of_sver, value="ОПЕКУНЫ")
     type_OPEK_radio.grid(row=3, column=2, padx=5, pady=10)
+
+    type_CHAES_radio = tk.Radiobutton(type_frame, text="ЧАЭС", font=20, variable=selected_type_of_sver,
+                                     value="ЧАЭС")
+    type_CHAES_radio.grid(row=1, column=3, padx=5, pady=10)
 
     check_vib_state = tk.BooleanVar(value=True)
 

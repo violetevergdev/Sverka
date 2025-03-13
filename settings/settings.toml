@@ -1,5 +1,5 @@
 [default]
-vers = 'v1.2.5'
+vers = 'v1.2.6'
 
 [prod]
 in_path = 'IN'

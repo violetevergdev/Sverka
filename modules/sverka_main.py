@@ -1,5 +1,6 @@
 import os
 
+from modules.CHAES.start_CHAES_sver import start_CHAES
 from modules.NAKOP.start_NAKOP_sver import start_NAKOP
 from modules.vib_main import start_vib_main
 from modules.Common.customization.db_connection import db_connection
@@ -54,6 +55,10 @@ def sver_main(type_of_sver, vib_state, progress_value, progress_status):
                 return err
         elif type_of_sver == 'ОПЕКУНЫ':
             err = start_OPEK(in_path, type_of_sver, conn, c, progress_value, progress_status)
+            if err:
+                return err
+        elif type_of_sver == 'ЧАЭС':
+            err = start_CHAES(in_path, type_of_sver, conn, c, progress_value, progress_status)
             if err:
                 return err
 
